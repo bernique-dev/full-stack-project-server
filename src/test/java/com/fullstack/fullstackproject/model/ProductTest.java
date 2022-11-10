@@ -7,11 +7,22 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import java.security.InvalidParameterException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.DisplayName.class)
 class ProductTest {
+
+    @Test
+    @DisplayName("Constructor with correct parameters")
+    void createCorrectConstructor() {
+        String productName = "Petit PC";
+        float productPrice = 1.99f;
+        String productDescription = "Tout petit PC pas très performant mais conviendra à un enfant en bas âge";
+        Product product = new Product(productName, productPrice, productDescription);
+        assertEquals(product.getName(), productName);
+        assertEquals(product.getPrice(), productPrice);
+        assertEquals(product.getDescription(), productDescription);
+    }
 
     @Test
     @DisplayName("Constructor with incorrect price")

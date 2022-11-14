@@ -34,6 +34,7 @@ class CategoryControllerTest {
     }
 
     @Test
+    @Order(Ordered.HIGHEST_PRECEDENCE)
     @DisplayName("Add complete category")
     public void addCompleteCategory() throws Exception {
         String productName = "Literie";
@@ -59,8 +60,8 @@ class CategoryControllerTest {
 
     @Test
     @Order(Ordered.LOWEST_PRECEDENCE)
-    @DisplayName("Delete incorrect product")
-    public void deleteIncorrectProduct() throws Exception {
+    @DisplayName("Delete missing product")
+    public void deleteMissingProduct() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete("/categories/" + (getLastCategoryId()+1)))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
@@ -103,12 +104,12 @@ class CategoryControllerTest {
         Iterable<Category> categories = categoryRepository.findAll();
         Iterator<Category> categoryIterator = categories.iterator();
 
-        Category category = categoryIterator.next();
+        Category category = null;
         while (categoryIterator.hasNext()) {
             category = categoryIterator.next();
         }
 
-        return category.getId();
+        return category != null ? category.getId() : 1;
     }
 
 }

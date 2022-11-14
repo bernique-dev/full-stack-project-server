@@ -95,8 +95,8 @@ public class ProductControllerTest {
 
     @Test
     @Order(Ordered.LOWEST_PRECEDENCE)
-    @DisplayName("Delete unknown product")
-    public void deleteIncorrectProduct() throws Exception {
+    @DisplayName("Delete missing product")
+    public void deleteMissingProduct() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.delete("/products/" + (getLastProductId()+1)))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
@@ -188,12 +188,12 @@ public class ProductControllerTest {
         Iterable<Product> products = productRepository.findAll();
         Iterator<Product> productIterator = products.iterator();
 
-        Product product = productIterator.next();
+        Product product = null;
         while (productIterator.hasNext()) {
             product = productIterator.next();
         }
 
-        return product.getId();
+        return product != null ? product.getId() : 1;
     }
 
 }

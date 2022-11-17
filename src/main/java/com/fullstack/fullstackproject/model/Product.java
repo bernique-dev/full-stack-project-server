@@ -16,6 +16,10 @@ public class Product {
     //protected Category category;
     protected String description;
 
+    @ManyToOne
+    @JoinColumn(name = "shop_id", nullable = false)
+    protected Shop shop;
+
     public Long getId() {
         return id;
     }

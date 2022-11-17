@@ -1,6 +1,7 @@
 package com.fullstack.fullstackproject.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.security.InvalidParameterException;
 
 @Entity
@@ -10,6 +11,7 @@ public class Category {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
+    @NotNull
     protected String name;
 
     protected Category() {}

@@ -2,6 +2,8 @@ package com.fullstack.fullstackproject.model;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.security.InvalidParameterException;
 
 @Entity
@@ -11,8 +13,12 @@ public class Product {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+    @NotNull
     protected String name;
-    protected float price;
+
+    @NotNull
+    @PositiveOrZero
+    protected Float price;
     //protected Category category;
     protected String description;
 
@@ -24,7 +30,7 @@ public class Product {
         return name;
     }
 
-    public float getPrice() {
+    public Float getPrice() {
         return price;
     }
 
@@ -37,13 +43,13 @@ public class Product {
     }
 
     public void setName(String name) {
-        if (name.equals("")) {
+        if (name == null || name.equals("")) {
             throw new InvalidParameterException();
         }
         this.name = name;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(Float price) {
         if (price < 0) {
             throw new InvalidParameterException();
         }
@@ -53,7 +59,7 @@ public class Product {
     protected Product() {}
 
     public Product(String name, float price, String description) {
-        if (name.equals("") || price < 0) {
+        if (name == null || name.equals("") || price < 0) {
             throw new InvalidParameterException();
         }
         this.name = name;

@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("products")
@@ -22,15 +22,9 @@ public class ProductController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Long> addProduct(@RequestParam String name, @RequestParam float price,
-                                           @RequestParam String description) {
-        if (!name.equals("") && price >= 0) {
-            Product createdProduct = new Product(name, price, description);
-            productRepository.save(createdProduct);
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct.getId());
-        } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<Long> addProduct(@RequestBody @Valid Product product) {
+        productRepository.save(product);
+        return ResponseEntity.status(HttpStatus.CREATED).body(product.getId());
     }
 
     @DeleteMapping("/{id}")
@@ -42,44 +36,20 @@ public class ProductController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Long> updateById(@PathVariable("id") Long id,
-                                           @RequestParam(required = false) Optional<String> name,
-                                           @RequestParam(required = false) Optional<Float> price,
-                                           @RequestParam(required = false) Optional<String> description) {
+    public ResponseEntity<Long> updateById(@PathVariable("id") Long id, @RequestBody Product product) {
         boolean doesProductExist = productRepository.findById(id).isPresent();
-        boolean hasBeenUpdated = false;
 
         if (doesProductExist) {
-            boolean canBeUpdated = true;
-            if (name.isPresent()) {
-                canBeUpdated = !name.get().equals("");
-                hasBeenUpdated = true;
-            }
-            if (price.isPresent()) {
-                canBeUpdated = canBeUpdated && price.get() >= 0;
-                hasBeenUpdated = true;
-            }
-            if (description.isPresent()) {
-                hasBeenUpdated = true;
-            }
-
-            if (canBeUpdated && hasBeenUpdated) {
-                Product product = productRepository.findById(id).get();
-                //  condition(object::method)
-                //  runs object.method() if condition is true
-                name.ifPresent(product::setName);
-                price.ifPresent(product::setPrice);
-                description.ifPresent(product::setDescription);
-                productRepository.save(product);
-                return new ResponseEntity<>(id, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
+            Product productToUpdate = productRepository.findById(id).get();
+            if (product.getName() != null) productToUpdate.setName(product.getName());
+            if (product.getPrice() != null) productToUpdate.setPrice(product.getPrice());
+            if (product.getDescription() != null) productToUpdate.setDescription(product.getDescription());
+            productRepository.save(productToUpdate);
+            return new ResponseEntity<>(id, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

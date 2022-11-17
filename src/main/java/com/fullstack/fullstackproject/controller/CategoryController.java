@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import javax.validation.Valid;
 
 @RequestMapping("categories")
 @RestController
@@ -22,14 +22,9 @@ public class CategoryController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Long> addCategory(@RequestParam String name) {
-        if (!name.equals("")) {
-            Category createdCategory = new Category(name);
-            categoryRepository.save(createdCategory);
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdCategory.getId());
-        } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<Long> addCategory(@RequestBody @Valid Category category) {
+        categoryRepository.save(category);
+        return ResponseEntity.status(HttpStatus.CREATED).body(category.getId());
     }
 
     @DeleteMapping("/{id}")
@@ -46,19 +41,14 @@ public class CategoryController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Long> updateById(@PathVariable("id") Long id,
-                                           @RequestParam Optional<String> name) {
+    public ResponseEntity<Long> updateById(@PathVariable("id") Long id, @RequestBody Category category) {
         boolean doesProductExist = categoryRepository.findById(id).isPresent();
 
         if (doesProductExist) {
-            if (name.isPresent() && !name.get().equals("")) {
-                Category category = categoryRepository.findById(id).get();
-                name.ifPresent(category::setName);
-                categoryRepository.save(category);
-                return new ResponseEntity<>(id, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
+            Category categoryToUpdate = categoryRepository.findById(id).get();
+            if (category.getName() != null) categoryToUpdate.setName(category.getName());
+            categoryRepository.save(categoryToUpdate);
+            return new ResponseEntity<>(id, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

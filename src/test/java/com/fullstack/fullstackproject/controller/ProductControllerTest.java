@@ -2,6 +2,7 @@ package com.fullstack.fullstackproject.controller;
 
 import com.fullstack.fullstackproject.model.Product;
 import com.fullstack.fullstackproject.model.ProductRepository;
+import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -40,10 +41,15 @@ public class ProductControllerTest {
         String productName = "Poêle Fetal";
         String productPrice = "15.99";
         String productDescription = "Poêle parfaite pour les crêpes, gnocchis et ping-pong";
+
+        JSONObject json = new JSONObject();
+        json.put("name", productName);
+        json.put("price", productPrice);
+        json.put("description", productDescription);
+
         mockMvc.perform(MockMvcRequestBuilders.post("/products")
-                        .param("name", productName)
-                        .param("price", productPrice)
-                        .param("description", productDescription))
+                        .content(json.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
                         .andExpect(MockMvcResultMatchers.status().isCreated());
     }
 
@@ -52,9 +58,14 @@ public class ProductControllerTest {
     public void addIncompleteProduct() throws Exception {
         String productName = "Poêle Fetal";
         String productDescription = "Poêle parfaite pour les crêpes, gnocchis et ping-pong";
+
+        JSONObject json = new JSONObject();
+        json.put("name", productName);
+        json.put("description", productDescription);
+
         mockMvc.perform(MockMvcRequestBuilders.post("/products")
-                        .param("name", productName)
-                        .param("description", productDescription))
+                        .content(json.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
@@ -64,10 +75,15 @@ public class ProductControllerTest {
         String productName = "";
         String productPrice = "15.99";
         String productDescription = "Poêle parfaite pour les crêpes, gnocchis et ping-pong";
+
+        JSONObject json = new JSONObject();
+        json.put("name", productName);
+        json.put("price", productPrice);
+        json.put("description", productDescription);
+
         mockMvc.perform(MockMvcRequestBuilders.post("/products")
-                        .param("name", productName)
-                        .param("price", productPrice)
-                        .param("description", productDescription))
+                        .content(json.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
@@ -77,10 +93,15 @@ public class ProductControllerTest {
         String productName = "Poêle Fetal";
         String productPrice = "-15.99";
         String productDescription = "Poêle parfaite pour les crêpes, gnocchis et ping-pong";
+
+        JSONObject json = new JSONObject();
+        json.put("name", productName);
+        json.put("price", productPrice);
+        json.put("description", productDescription);
+
         mockMvc.perform(MockMvcRequestBuilders.post("/products")
-                        .param("name", productName)
-                        .param("price", productPrice)
-                        .param("description", productDescription))
+                        .content(json.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
@@ -107,14 +128,25 @@ public class ProductControllerTest {
         String productName = "Poêle Fetal";
         String productPrice = "15.99";
         String productDescription = "Poêle parfaite pour les crêpes, gnocchis et ping-pong";
+
+        JSONObject jsonName = new JSONObject();
+        jsonName.put("name", productName);
+        JSONObject jsonPrice = new JSONObject();
+        jsonPrice.put("price", productPrice);
+        JSONObject jsonDescription = new JSONObject();
+        jsonDescription.put("description", productDescription);
+
         mockMvc.perform(MockMvcRequestBuilders.patch("/products/" + getLastProductId())
-                        .param("name", productName))
+                        .content(jsonName.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
         mockMvc.perform(MockMvcRequestBuilders.patch("/products/" + getLastProductId())
-                        .param("price", productPrice))
+                        .content(jsonPrice.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
         mockMvc.perform(MockMvcRequestBuilders.patch("/products/" + getLastProductId())
-                        .param("description", productDescription))
+                        .content(jsonDescription.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
@@ -124,17 +156,28 @@ public class ProductControllerTest {
         String productName = "Poêle Fetal";
         String productPrice = "15.99";
         String productDescription = "Poêle parfaite pour les crêpes, gnocchis et ping-pong";
+
+        JSONObject jsonWithoutDescription = new JSONObject();
+        jsonWithoutDescription.put("name", productName);
+        jsonWithoutDescription.put("price", productPrice);
+        JSONObject jsonWithoutName = new JSONObject();
+        jsonWithoutName.put("price", productPrice);
+        jsonWithoutName.put("description", productDescription);
+        JSONObject jsonWithoutPrice = new JSONObject();
+        jsonWithoutPrice.put("name", productName);
+        jsonWithoutPrice.put("description", productDescription);
+
         mockMvc.perform(MockMvcRequestBuilders.patch("/products/" + getLastProductId())
-                        .param("name", productName)
-                        .param("price", productPrice))
+                        .content(jsonWithoutDescription.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
         mockMvc.perform(MockMvcRequestBuilders.patch("/products/" + getLastProductId())
-                        .param("price", productPrice)
-                        .param("description", productDescription))
+                        .content(jsonWithoutName.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
         mockMvc.perform(MockMvcRequestBuilders.patch("/products/" + getLastProductId())
-                        .param("name", productName)
-                        .param("description", productDescription))
+                        .content(jsonWithoutPrice.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
     @Test
@@ -143,10 +186,15 @@ public class ProductControllerTest {
         String productName = "Poêle Fetal";
         String productPrice = "15.99";
         String productDescription = "Poêle parfaite pour les crêpes, gnocchis et ping-pong";
+
+        JSONObject json = new JSONObject();
+        json.put("name", productName);
+        json.put("price", productPrice);
+        json.put("description", productDescription);
+
         mockMvc.perform(MockMvcRequestBuilders.patch("/products/" + getLastProductId())
-                        .param("name", productName)
-                        .param("price", productPrice)
-                        .param("description", productDescription))
+                        .content(json.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
@@ -154,8 +202,13 @@ public class ProductControllerTest {
     @DisplayName("Update product incorrectly (Incorrect name)")
     void updateProductWithIncorrectName() throws Exception {
         String productName = "";
+
+        JSONObject json = new JSONObject();
+        json.put("name", productName);
+
         mockMvc.perform(MockMvcRequestBuilders.patch("/products/" + getLastProductId())
-                        .param("name", productName))
+                        .content(json.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
@@ -163,8 +216,13 @@ public class ProductControllerTest {
     @DisplayName("Update product incorrectly (Incorrect price)")
     void updateProductWithIncorrectPrice() throws Exception {
         String productPrice = "-14.99";
+
+        JSONObject json = new JSONObject();
+        json.put("price", productPrice);
+
         mockMvc.perform(MockMvcRequestBuilders.patch("/products/" + getLastProductId())
-                        .param("price", productPrice))
+                        .content(json.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
     @Test
@@ -178,8 +236,13 @@ public class ProductControllerTest {
     @DisplayName("Update missing product")
     void updateMissingProduct() throws Exception {
         String productName = "Boussole Ini";
+
+        JSONObject json = new JSONObject();
+        json.put("name", productName);
+
         mockMvc.perform(MockMvcRequestBuilders.patch("/products/" + (getLastProductId() + 1))
-                        .param("name", productName))
+                        .content(json.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 

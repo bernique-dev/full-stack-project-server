@@ -2,6 +2,7 @@ package com.fullstack.fullstackproject.controller;
 
 import com.fullstack.fullstackproject.model.Category;
 import com.fullstack.fullstackproject.model.CategoryRepository;
+import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -37,9 +38,14 @@ class CategoryControllerTest {
     @Order(Ordered.HIGHEST_PRECEDENCE)
     @DisplayName("Add complete category")
     public void addCompleteCategory() throws Exception {
-        String productName = "Literie";
+        String categoryName = "Literie";
+
+        JSONObject json = new JSONObject();
+        json.put("name", categoryName);
+
         mockMvc.perform(MockMvcRequestBuilders.post("/categories")
-                        .param("name", productName))
+                        .content(json.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
                         .andExpect(MockMvcResultMatchers.status().isCreated());
     }
 
@@ -70,8 +76,13 @@ class CategoryControllerTest {
     @DisplayName("Update category correctly")
     void correctlyUpdateCategory() throws Exception {
         String categoryName = "Linge";
+
+        JSONObject json = new JSONObject();
+        json.put("name", categoryName);
+
         mockMvc.perform(MockMvcRequestBuilders.patch("/categories/" + getLastCategoryId())
-                        .param("name", categoryName))
+                        .content(json.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
@@ -79,8 +90,13 @@ class CategoryControllerTest {
     @DisplayName("Update category incorrectly")
     void incorrectlyUpdateCategory() throws Exception {
         String categoryName = "";
+
+        JSONObject json = new JSONObject();
+        json.put("name", categoryName);
+
         mockMvc.perform(MockMvcRequestBuilders.patch("/categories/" + getLastCategoryId())
-                        .param("name", categoryName))
+                        .content(json.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
@@ -94,9 +110,14 @@ class CategoryControllerTest {
     @Test
     @DisplayName("Update missing category")
     void updateMissingCategory() throws Exception {
-        String categoryName = "";
+        String categoryName = "Hygiène";
+
+        JSONObject json = new JSONObject();
+        json.put("name", categoryName);
+
         mockMvc.perform(MockMvcRequestBuilders.patch("/categories/" + (getLastCategoryId() + 1))
-                        .param("name", categoryName))
+                        .content(json.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 

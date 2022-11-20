@@ -53,7 +53,7 @@ public class ShopController {
     @PostMapping("")
     public ResponseEntity<Long> createShop(@RequestBody @Valid Shop shop) {
         shopRepository.save(shop);
-        return new ResponseEntity<>(shop.getId(), HttpStatus.OK);
+        return new ResponseEntity<>(shop.getId(), HttpStatus.CREATED);
     }
 
     //change value(name, isOnLeave, openingTimes, closingTimes) -> patch

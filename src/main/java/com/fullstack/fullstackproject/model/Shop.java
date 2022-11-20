@@ -1,15 +1,12 @@
 package com.fullstack.fullstackproject.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.istack.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.security.InvalidParameterException;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Entity
 @Table(name = "shop")
@@ -34,7 +31,7 @@ public class Shop {
     @MapKeyColumn(name = "day")
     @Column(name = "opening_time")
     @NotNull
-    @JsonFormat(pattern = "hh:mm:ss")
+    //@JsonFormat(pattern = "hh:mm:ss")
     protected Map<DayOfWeek, LocalTime> openingTimes;
 
 
@@ -56,13 +53,18 @@ public class Shop {
     public Shop() {}
 
     public Shop(String name, Boolean isOnLeave, Map<DayOfWeek, LocalTime> openingTimes , Map<DayOfWeek, LocalTime> closingTimes) {
-        if (name.equals("") || isOnLeave == null) {
+        if (name.equals("")
+                || isOnLeave == null
+                || openingTimes.size() != DayOfWeek.values().length
+                || closingTimes.size() != DayOfWeek.values().length) {
             throw new InvalidParameterException();
         }
+
         this.name = name;
         this.isOnLeave = isOnLeave;
         this.openingTimes = openingTimes;
         this.closingTimes = closingTimes;
+        this.productList = new ArrayList<Product>();
     }
 
     public Long getId() {
@@ -108,14 +110,14 @@ public class Shop {
         if (dayOfWeek == null) {
             throw new InvalidParameterException();
         }
-        this.openingTimes.put(dayOfWeek, openingTime);
+        openingTimes.put(dayOfWeek, openingTime);
     }
 
     public void setClosingTime(DayOfWeek dayOfWeek, LocalTime closingTime) {
         if (dayOfWeek == null) {
             throw new InvalidParameterException();
         }
-        this.closingTimes.put(dayOfWeek, closingTime);
+        closingTimes.put(dayOfWeek, closingTime);
     }
 
     public void addProduct(Product product) {

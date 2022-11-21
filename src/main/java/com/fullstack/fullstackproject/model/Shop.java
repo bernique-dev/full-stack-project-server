@@ -47,7 +47,7 @@ public class Shop {
     //@JsonFormat(pattern = "hh:mm:ss")
     protected Map<DayOfWeek, LocalTime> closingTimes;
 
-    @OneToMany(mappedBy = "shop")
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
     protected List<Product> productList;
 
     public Shop() {}

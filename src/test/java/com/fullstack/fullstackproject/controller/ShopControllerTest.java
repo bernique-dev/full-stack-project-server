@@ -73,6 +73,9 @@ class ShopControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/shop")
                         .content(requestBody.toString()).contentType(MediaType.APPLICATION_JSON))
                         .andExpect(MockMvcResultMatchers.status().isCreated());
+        mockMvc.perform(MockMvcRequestBuilders.post("/shop")
+                        .content(requestBody.toString()).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isCreated());
 
     }
 

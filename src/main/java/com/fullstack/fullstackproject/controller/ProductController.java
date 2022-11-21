@@ -1,7 +1,9 @@
 package com.fullstack.fullstackproject.controller;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.fullstack.fullstackproject.model.Product;
 import com.fullstack.fullstackproject.model.ProductRepository;
+import com.fullstack.fullstackproject.model.Shop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

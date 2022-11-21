@@ -2,6 +2,7 @@ package com.fullstack.fullstackproject.controller;
 
 import com.fullstack.fullstackproject.model.Product;
 import com.fullstack.fullstackproject.model.ProductRepository;
+import com.fullstack.fullstackproject.model.ShopRepository;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class ProductControllerTest {
 
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private ShopRepository shopRepository;
 
     @Test
     @DisplayName("Get Products")
@@ -46,6 +49,10 @@ public class ProductControllerTest {
         json.put("name", productName);
         json.put("price", productPrice);
         json.put("description", productDescription);
+
+        JSONObject shopJson = new JSONObject();
+        shopJson.put("id", shopRepository.findAll().iterator().next().getId());
+        json.put("shop", shopJson);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/products")
                         .content(json.toString())

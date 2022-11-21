@@ -1,6 +1,10 @@
 package com.fullstack.fullstackproject.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
@@ -24,7 +28,19 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "shop_id", nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     protected Shop shop;
+
+    @JsonSerialize
+    @JsonProperty("shop_id")
+    protected Long getShopId() {
+        return getShop().getId();
+    }
+
+    @JsonIgnore
+    protected Shop getShop() {
+        return shop;
+    }
 
     public Long getId() {
         return id;

@@ -1,5 +1,6 @@
 package com.fullstack.fullstackproject.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -48,6 +49,7 @@ public class Shop {
     protected Map<DayOfWeek, LocalTime> closingTimes;
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
+    @JsonManagedReference
     protected List<Product> productList;
 
     public Shop() {}
@@ -64,7 +66,7 @@ public class Shop {
         this.isOnLeave = isOnLeave;
         this.openingTimes = openingTimes;
         this.closingTimes = closingTimes;
-        this.productList = new ArrayList<Product>();
+        this.productList = new ArrayList<>();
     }
 
     public Long getId() {

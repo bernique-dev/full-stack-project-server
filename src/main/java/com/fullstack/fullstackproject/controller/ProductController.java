@@ -1,9 +1,7 @@
 package com.fullstack.fullstackproject.controller;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.fullstack.fullstackproject.model.Product;
 import com.fullstack.fullstackproject.model.ProductRepository;
-import com.fullstack.fullstackproject.model.Shop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,6 +48,7 @@ public class ProductController {
             if (product.getName() != null) productToUpdate.setName(product.getName());
             if (product.getPrice() != null) productToUpdate.setPrice(product.getPrice());
             if (product.getDescription() != null) productToUpdate.setDescription(product.getDescription());
+            if (product.getCategories() != null) productToUpdate.setCategories(product.getCategories());
             productRepository.save(productToUpdate);
             return new ResponseEntity<>(id, HttpStatus.OK);
         } else {

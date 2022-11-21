@@ -1,7 +1,7 @@
 package com.fullstack.fullstackproject.model;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -9,6 +9,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.security.InvalidParameterException;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "product")
@@ -23,12 +25,15 @@ public class Product {
     @NotNull
     @PositiveOrZero
     protected Float price;
-    //protected Category category;
+
+    @NotNull
+    @ManyToMany
+    protected Set<Category> categories;
     protected String description;
 
     @ManyToOne
     @JoinColumn(name = "shop_id", nullable = false)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonBackReference
     protected Shop shop;
 
     @JsonSerialize
@@ -37,7 +42,12 @@ public class Product {
         return getShop().getId();
     }
 
-    @JsonIgnore
+    @JsonSerialize
+    @JsonProperty("shop_name")
+    protected String getShopName() {
+        return getShop().getName();
+    }
+
     protected Shop getShop() {
         return shop;
     }
@@ -76,12 +86,25 @@ public class Product {
         this.price = price;
     }
 
-    protected Product() {}
+
+    public void setCategories(Set<Category> newCategories) {
+        categories = newCategories;
+    }
+
+
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    protected Product() {
+        categories = new HashSet<>();
+    }
 
     public Product(String name, float price, String description) {
         if (name == null || name.equals("") || price < 0) {
             throw new InvalidParameterException();
         }
+        categories = new HashSet<>();
         this.name = name;
         this.price = price;
         this.description = description;

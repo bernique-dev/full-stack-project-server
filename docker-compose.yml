@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  mysqldb:
+    image: mysql:8.0
+    environment:
+      - MYSQL_DATABASE=fullstack
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=fullstack
+      - MYSQL_PASSWORD=fullstack
+    ports:
+      - '33306:3306'
+    expose:
+      - '33306'
+    healthcheck:
+      test: /usr/bin/mysql --user=root --password=root --execute "SHOW DATABASES;"
+      interval: 2s
+      timeout: 20s
+      retries: 10
+  application:
+    image: application:latest
+    depends_on:
+      mysqldb:
+        condition: service_healthy
+    build: .
+    ports:
+      - 8080:8080
+    volumes:
+      - .m2:/root/.m2
+    environment:
+      - SPRING_DATASOURCE_URL= jdbc:mysql://mysqldb:3306/fullstack
+
+

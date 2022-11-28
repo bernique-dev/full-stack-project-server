@@ -54,7 +54,8 @@ public class Shop {
 
     public Shop() {}
 
-    public Shop(String name, Boolean isOnLeave, Map<DayOfWeek, LocalTime> openingTimes , Map<DayOfWeek, LocalTime> closingTimes) {
+    public Shop(String name, Boolean isOnLeave,
+                Map<DayOfWeek, LocalTime> openingTimes , Map<DayOfWeek, LocalTime> closingTimes) {
         if (name.equals("")
                 || isOnLeave == null
                 || openingTimes.size() != DayOfWeek.values().length
@@ -66,7 +67,7 @@ public class Shop {
         this.isOnLeave = isOnLeave;
         this.openingTimes = openingTimes;
         this.closingTimes = closingTimes;
-        this.productList = new ArrayList<>();
+        this.productList = new ArrayList<Product>();
     }
 
     public Long getId() {

@@ -45,7 +45,7 @@ class ShopControllerTest {
         String name = "Burger Cringe";
         Boolean isOnLeave = false;
 
-        Map<String, JSONArray> openingTimes = new HashMap<String, JSONArray>();
+        Map<String, JSONArray> openingTimes = new HashMap<>();
         openingTimes.put(DayOfWeek.MONDAY.name(), new JSONArray(new int[] {8, 30}));
         openingTimes.put(DayOfWeek.TUESDAY.name(), new JSONArray(new int[] {8, 30}));
         openingTimes.put(DayOfWeek.WEDNESDAY.name(),  new JSONArray(new int[] {8, 30}));
@@ -54,7 +54,7 @@ class ShopControllerTest {
         openingTimes.put(DayOfWeek.SATURDAY.name(), null);
         openingTimes.put(DayOfWeek.SUNDAY.name(),  new JSONArray(new int[] {8, 30}));
 
-        Map<String, JSONArray> closingTimes = new HashMap<String,  JSONArray>();
+        Map<String, JSONArray> closingTimes = new HashMap<>();
         closingTimes.put(DayOfWeek.MONDAY.name(),  new JSONArray(new int[] {8, 30}));
         closingTimes.put(DayOfWeek.TUESDAY.name(),  new JSONArray(new int[] {8, 30}));
         closingTimes.put(DayOfWeek.WEDNESDAY.name(),  new JSONArray(new int[] {8, 30}));
@@ -73,9 +73,6 @@ class ShopControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/shop")
                         .content(requestBody.toString()).contentType(MediaType.APPLICATION_JSON))
                         .andExpect(MockMvcResultMatchers.status().isCreated());
-        mockMvc.perform(MockMvcRequestBuilders.post("/shop")
-                        .content(requestBody.toString()).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isCreated());
 
     }
 
@@ -85,7 +82,7 @@ class ShopControllerTest {
         String name = "";
         String isOnLeave = "false";
 
-        Map<String, JSONArray> openingTimes = new HashMap<String, JSONArray>();
+        Map<String, JSONArray> openingTimes = new HashMap<>();
         openingTimes.put(DayOfWeek.MONDAY.name(), new JSONArray(new int[] {8, 30}));
         openingTimes.put(DayOfWeek.TUESDAY.name(), new JSONArray(new int[] {8, 30}));
         openingTimes.put(DayOfWeek.WEDNESDAY.name(),  new JSONArray(new int[] {8, 30}));
@@ -94,7 +91,7 @@ class ShopControllerTest {
         openingTimes.put(DayOfWeek.SATURDAY.name(), null);
         openingTimes.put(DayOfWeek.SUNDAY.name(),  new JSONArray(new int[] {8, 30}));
 
-        Map<String, JSONArray> closingTimes = new HashMap<String,  JSONArray>();
+        Map<String, JSONArray> closingTimes = new HashMap<>();
         closingTimes.put(DayOfWeek.MONDAY.name(),  new JSONArray(new int[] {8, 30}));
         closingTimes.put(DayOfWeek.TUESDAY.name(),  new JSONArray(new int[] {8, 30}));
         closingTimes.put(DayOfWeek.WEDNESDAY.name(),  new JSONArray(new int[] {8, 30}));
@@ -120,7 +117,7 @@ class ShopControllerTest {
         String name = "Mc gros";
         String isOnLeave = "";
 
-        Map<String, JSONArray> openingTimes = new HashMap<String, JSONArray>();
+        Map<String, JSONArray> openingTimes = new HashMap<>();
         openingTimes.put(DayOfWeek.MONDAY.name(), new JSONArray(new int[] {8, 30}));
         openingTimes.put(DayOfWeek.TUESDAY.name(), new JSONArray(new int[] {8, 30}));
         openingTimes.put(DayOfWeek.WEDNESDAY.name(),  new JSONArray(new int[] {8, 30}));
@@ -129,7 +126,7 @@ class ShopControllerTest {
         openingTimes.put(DayOfWeek.SATURDAY.name(), null);
         openingTimes.put(DayOfWeek.SUNDAY.name(),  new JSONArray(new int[] {8, 30}));
 
-        Map<String, JSONArray> closingTimes = new HashMap<String,  JSONArray>();
+        Map<String, JSONArray> closingTimes = new HashMap<>();
         closingTimes.put(DayOfWeek.MONDAY.name(),  new JSONArray(new int[] {8, 30}));
         closingTimes.put(DayOfWeek.TUESDAY.name(),  new JSONArray(new int[] {8, 30}));
         closingTimes.put(DayOfWeek.WEDNESDAY.name(),  new JSONArray(new int[] {8, 30}));
@@ -171,10 +168,10 @@ class ShopControllerTest {
         String name = "KFC (Ketchup Frites Caramel)";
         String isOnLeave = "false";
 
-        Map<String, JSONArray> openingTimes = new HashMap<String, JSONArray>();
+        Map<String, JSONArray> openingTimes = new HashMap<>();
         openingTimes.put(DayOfWeek.MONDAY.name(), new JSONArray(new int[] {10, 30}));
 
-        Map<String, JSONArray> closingTimes = new HashMap<String, JSONArray>();
+        Map<String, JSONArray> closingTimes = new HashMap<>();
         openingTimes.put(DayOfWeek.MONDAY.name(), new JSONArray(new int[] {10, 30}));
 
         JSONObject requestBody = new JSONObject();
@@ -208,10 +205,10 @@ class ShopControllerTest {
         String name = "KFC (Ketchup Frites Caramel)";
         String isOnLeave = "false";
 
-        Map<String, JSONArray> openingTimes = new HashMap<String, JSONArray>();
+        Map<String, JSONArray> openingTimes = new HashMap<>();
         openingTimes.put(DayOfWeek.MONDAY.name(), new JSONArray(new int[] {10, 30}));
 
-        Map<String, JSONArray> closingTimes = new HashMap<String, JSONArray>();
+        Map<String, JSONArray> closingTimes = new HashMap<>();
         openingTimes.put(DayOfWeek.MONDAY.name(), new JSONArray(new int[] {10, 30}));
 
         JSONObject requestBody = new JSONObject();
@@ -263,10 +260,10 @@ class ShopControllerTest {
         String name = "KFC (Ketchup Frites Caramel)";
         String isOnLeave = "false";
 
-        Map<String, JSONArray> openingTimes = new HashMap<String, JSONArray>();
+        Map<String, JSONArray> openingTimes = new HashMap<>();
         openingTimes.put(DayOfWeek.MONDAY.name(), new JSONArray(new int[] {10, 30}));
 
-        Map<String, JSONArray> closingTimes = new HashMap<String, JSONArray>();
+        Map<String, JSONArray> closingTimes = new HashMap<>();
         openingTimes.put(DayOfWeek.MONDAY.name(), new JSONArray(new int[] {10, 30}));
 
         JSONObject requestBody = new JSONObject();

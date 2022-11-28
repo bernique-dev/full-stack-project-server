@@ -100,7 +100,12 @@ public class Product {
         categories = new HashSet<>();
     }
 
+
     public Product(String name, float price, String description) {
+        this(name, price, description, null);
+    }
+
+    public Product(String name, float price, String description, Shop shop) {
         if (name == null || name.equals("") || price < 0) {
             throw new InvalidParameterException();
         }
@@ -108,6 +113,7 @@ public class Product {
         this.name = name;
         this.price = price;
         this.description = description;
+        this.shop = shop;
     }
 
     @Override

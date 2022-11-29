@@ -1,6 +1,5 @@
 package com.fullstack.fullstackproject.model;
 
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -109,9 +108,16 @@ public class Product {
         this.price = price;
     }
 
-
     public void setCategories(Set<Category> newCategories) {
         categories = newCategories;
+    }
+
+    public void addCategory(Category category) {
+        categories.add(category);
+    }
+
+    public void removeCategory(Category category) {
+        categories.remove(category);
     }
 
     public void setTranslation(Language language, ProductTranslation productTranslation) {
@@ -140,7 +146,6 @@ public class Product {
         categories = new HashSet<>();
     }
 
-
     public Product(String name, float price, String description) {
         this(name, price, description, null);
     }
@@ -154,7 +159,7 @@ public class Product {
         this.price = price;
         this.description = description;
         this.shop = shop;
-        this.translations = new HashMap<Language, ProductTranslation>();
+        this.translations = new HashMap<>();
     }
 
     @Override

@@ -48,7 +48,7 @@ public class Shop {
     //@JsonFormat(pattern = "hh:mm:ss")
     protected Map<DayOfWeek, LocalTime> closingTimes;
 
-    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     protected List<Product> productList;
 
@@ -67,7 +67,7 @@ public class Shop {
         this.isOnLeave = isOnLeave;
         this.openingTimes = openingTimes;
         this.closingTimes = closingTimes;
-        this.productList = new ArrayList<Product>();
+        this.productList = new ArrayList<>();
     }
 
     public Long getId() {

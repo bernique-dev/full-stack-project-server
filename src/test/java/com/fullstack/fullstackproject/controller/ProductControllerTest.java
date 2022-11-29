@@ -1,8 +1,8 @@
 package com.fullstack.fullstackproject.controller;
 
-import com.fullstack.fullstackproject.model.Product;
-import com.fullstack.fullstackproject.model.ProductRepository;
-import com.fullstack.fullstackproject.model.ShopRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fullstack.fullstackproject.model.*;
 import org.json.JSONObject;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -135,6 +137,17 @@ public class ProductControllerTest {
         String productName = "Poêle Fetal";
         String productPrice = "15.99";
         String productDescription = "Poêle parfaite pour les crêpes, gnocchis et ping-pong";
+        Language language = Language.EN;
+        ProductTranslation productTranslation = new ProductTranslation("Lethal Pan", "A pan to kill them all");
+        Map<Language, ProductTranslation> translationMap = new HashMap<>();
+
+        ObjectMapper mapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(ProductTranslation.class, new ProductTranslationSerializer());
+        module.addDeserializer(ProductTranslation.class, new ProductTranslationDeserializer());
+        mapper.registerModule(module);
+
+        translationMap.put(language, productTranslation);
 
         JSONObject jsonName = new JSONObject();
         jsonName.put("name", productName);
@@ -142,6 +155,8 @@ public class ProductControllerTest {
         jsonPrice.put("price", productPrice);
         JSONObject jsonDescription = new JSONObject();
         jsonDescription.put("description", productDescription);
+        JSONObject jsonTranslationMap = new JSONObject();
+        jsonTranslationMap.put("translations", new JSONObject(mapper.writeValueAsString(translationMap)));
 
         mockMvc.perform(MockMvcRequestBuilders.patch("/products/" + getLastProductId())
                         .content(jsonName.toString())
@@ -155,6 +170,10 @@ public class ProductControllerTest {
                         .content(jsonDescription.toString())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
+        mockMvc.perform(MockMvcRequestBuilders.patch("/products/" + getLastProductId())
+                        .content(jsonTranslationMap.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
@@ -163,16 +182,41 @@ public class ProductControllerTest {
         String productName = "Poêle Fetal";
         String productPrice = "15.99";
         String productDescription = "Poêle parfaite pour les crêpes, gnocchis et ping-pong";
+        Language language = Language.EN;
+        ProductTranslation productTranslation = new ProductTranslation("Lethal Pan", "A pan to kill them all");
+        Map<Language, ProductTranslation> translationMap = new HashMap<>();
+
+        ObjectMapper mapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(ProductTranslation.class, new ProductTranslationSerializer());
+        module.addDeserializer(ProductTranslation.class, new ProductTranslationDeserializer());
+        mapper.registerModule(module);
+
+        translationMap.put(language, productTranslation);
 
         JSONObject jsonWithoutDescription = new JSONObject();
         jsonWithoutDescription.put("name", productName);
         jsonWithoutDescription.put("price", productPrice);
+
         JSONObject jsonWithoutName = new JSONObject();
         jsonWithoutName.put("price", productPrice);
         jsonWithoutName.put("description", productDescription);
+
         JSONObject jsonWithoutPrice = new JSONObject();
         jsonWithoutPrice.put("name", productName);
         jsonWithoutPrice.put("description", productDescription);
+
+        JSONObject jsonTranslationMapName = new JSONObject();
+        jsonTranslationMapName.put("name", productName);
+        jsonTranslationMapName.put("translations", new JSONObject(mapper.writeValueAsString(translationMap)));
+
+        JSONObject jsonTranslationMapDescription = new JSONObject();
+        jsonTranslationMapDescription.put("description", productDescription);
+        jsonTranslationMapDescription.put("translations", new JSONObject(mapper.writeValueAsString(translationMap)));
+
+        JSONObject jsonTranslationMapPrice = new JSONObject();
+        jsonTranslationMapPrice.put("price", productPrice);
+        jsonTranslationMapPrice.put("translations", new JSONObject(mapper.writeValueAsString(translationMap)));
 
         mockMvc.perform(MockMvcRequestBuilders.patch("/products/" + getLastProductId())
                         .content(jsonWithoutDescription.toString())
@@ -186,6 +230,21 @@ public class ProductControllerTest {
                         .content(jsonWithoutPrice.toString())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
+
+        mockMvc.perform(MockMvcRequestBuilders.patch("/products/" + getLastProductId())
+                        .content(jsonTranslationMapName.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        mockMvc.perform(MockMvcRequestBuilders.patch("/products/" + getLastProductId())
+                        .content(jsonTranslationMapDescription.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        mockMvc.perform(MockMvcRequestBuilders.patch("/products/" + getLastProductId())
+                        .content(jsonTranslationMapPrice.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
     @Test
     @DisplayName("Update product correctly (3 parameters)")
@@ -193,16 +252,91 @@ public class ProductControllerTest {
         String productName = "Poêle Fetal";
         String productPrice = "15.99";
         String productDescription = "Poêle parfaite pour les crêpes, gnocchis et ping-pong";
+        Language language = Language.EN;
+        ProductTranslation productTranslation = new ProductTranslation("Lethal Pan", "A pan to kill them all");
+        Map<Language, ProductTranslation> translationMap = new HashMap<>();
 
-        JSONObject json = new JSONObject();
-        json.put("name", productName);
-        json.put("price", productPrice);
-        json.put("description", productDescription);
+        ObjectMapper mapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(ProductTranslation.class, new ProductTranslationSerializer());
+        module.addDeserializer(ProductTranslation.class, new ProductTranslationDeserializer());
+        mapper.registerModule(module);
+
+        translationMap.put(language, productTranslation);
+
+
+        JSONObject jsonWithoutTranslation = new JSONObject();
+        jsonWithoutTranslation.put("name", productName);
+        jsonWithoutTranslation.put("price", productPrice);
+        jsonWithoutTranslation.put("description", productDescription);
+        jsonWithoutTranslation.put("translations", new JSONObject(mapper.writeValueAsString(translationMap)));
+
+        JSONObject jsonWithoutName = new JSONObject();
+        jsonWithoutName.put("translations", new JSONObject(mapper.writeValueAsString(translationMap)));
+        jsonWithoutName.put("price", productPrice);
+        jsonWithoutName.put("description", productDescription);
+
+        JSONObject jsonWithoutPrice = new JSONObject();
+        jsonWithoutPrice.put("translations", new JSONObject(mapper.writeValueAsString(translationMap)));
+        jsonWithoutPrice.put("name", productName);
+        jsonWithoutPrice.put("description", productDescription);
+
+
+        JSONObject jsonWithoutDescription = new JSONObject();
+        jsonWithoutDescription.put("translations", new JSONObject(mapper.writeValueAsString(translationMap)));
+        jsonWithoutDescription.put("name", productName);
+        jsonWithoutDescription.put("price", productPrice);
+
+
 
         mockMvc.perform(MockMvcRequestBuilders.patch("/products/" + getLastProductId())
-                        .content(json.toString())
+                        .content(jsonWithoutTranslation.toString())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
+        mockMvc.perform(MockMvcRequestBuilders.patch("/products/" + getLastProductId())
+                        .content(jsonWithoutName.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        mockMvc.perform(MockMvcRequestBuilders.patch("/products/" + getLastProductId())
+                        .content(jsonWithoutPrice.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+        mockMvc.perform(MockMvcRequestBuilders.patch("/products/" + getLastProductId())
+                        .content(jsonWithoutDescription.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @DisplayName("Update product correctly (4 parameters)")
+    void correctlyUpdateProductWithFourParameters() throws Exception {
+        String productName = "Poêle Fetal";
+        String productPrice = "15.99";
+        String productDescription = "Poêle parfaite pour les crêpes, gnocchis et ping-pong";
+        Language language = Language.EN;
+        ProductTranslation productTranslation = new ProductTranslation("Lethal Pan", "A pan to kill them all");
+        Map<Language, ProductTranslation> translationMap = new HashMap<>();
+
+        ObjectMapper mapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(ProductTranslation.class, new ProductTranslationSerializer());
+        module.addDeserializer(ProductTranslation.class, new ProductTranslationDeserializer());
+        mapper.registerModule(module);
+
+        translationMap.put(language, productTranslation);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("translations", new JSONObject(mapper.writeValueAsString(translationMap)));
+        jsonObject.put("name", productName);
+        jsonObject.put("price", productPrice);
+        jsonObject.put("description", productDescription);
+
+
+        mockMvc.perform(MockMvcRequestBuilders.patch("/products/" + getLastProductId())
+                        .content(jsonObject.toString())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
     }
 
     @Test
@@ -232,6 +366,24 @@ public class ProductControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
+
+    @Test
+    @DisplayName("Update product incorrectly (Incorrect Translation)")
+    void updateProductWithIncorrectTranslation() throws Exception {
+
+
+        String badTranslationObject = "{\"translations\": {\n" +
+                "    \"EN\": {\n" +
+                "      \"product_name\": \"\",\n" +
+                "      \"product_description\": \"\"\n" +
+                "    }}";
+
+        mockMvc.perform(MockMvcRequestBuilders.patch("/products/" + getLastProductId())
+                        .content(badTranslationObject)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
     @Test
     @DisplayName("Update product without parameter")
     void updateProductWithoutParameter() throws Exception {

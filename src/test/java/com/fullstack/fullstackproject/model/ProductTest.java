@@ -78,6 +78,81 @@ class ProductTest {
     }
 
     @Test
+    @DisplayName("set correct couple Language/productTranslation")
+    void addCorrectCoupleLanguageProductTranslation() {
+        Language language = Language.EN;
+        ProductTranslation productTranslation = new ProductTranslation("Master chicken","a delicious master with his chicken");
+
+        String productName = "Petit PC";
+        float productPrice = 1.99f;
+        String productDescription = "Tout petit PC pas très performant mais conviendra à un enfant en bas âge";
+        Product product = new Product(productName, productPrice, productDescription);
+
+        product.setTranslation(language, productTranslation);
+
+        assertEquals(product.getTranslation(language), productTranslation);
+    }
+
+    @Test
+    @DisplayName("set incorrect couple Language/productTranslation")
+    void addIncorrectCoupleLanguageProductTranslationWithIncoorectLanguage() {
+        Language language =null;
+        ProductTranslation productTranslation = new ProductTranslation("Master chicken","a delicious master with his chicken");
+
+        String productName = "Petit PC";
+        float productPrice = 1.99f;
+        String productDescription = "Tout petit PC pas très performant mais conviendra à un enfant en bas âge";
+        Product product = new Product(productName, productPrice, productDescription);
+
+        assertThrows(InvalidParameterException.class,()->product.setTranslation(language, productTranslation));
+    }
+
+    @Test
+    @DisplayName("set incorrect couple Language/productTranslation")
+    void addIncorrectCoupleLanguageProductTranslationWithIncoorectProductTranslation() {
+        Language language = Language.EN;
+
+        String productName = "Petit PC";
+        float productPrice = 1.99f;
+        String productDescription = "Tout petit PC pas très performant mais conviendra à un enfant en bas âge";
+        Product product = new Product(productName, productPrice, productDescription);
+
+        assertThrows(InvalidParameterException.class,()->product.setTranslation(language, null));
+    }
+
+    @Test
+    @DisplayName("delete existant couple Language/productTranslation")
+    void deleteExistingCoupleLanguageProductTranslation() {
+        Language language = Language.EN;
+        ProductTranslation productTranslation = new ProductTranslation("Master chicken","a delicious master with his chicken");
+
+        String productName = "Petit PC";
+        float productPrice = 1.99f;
+        String productDescription = "Tout petit PC pas très performant mais conviendra à un enfant en bas âge";
+        Product product = new Product(productName, productPrice, productDescription);
+
+        product.setTranslation(language, productTranslation);
+        product.deleteTranslation(language);
+
+        assertNull(product.getTranslation(language));
+    }
+
+    @Test
+    @DisplayName("delete none existant couple Language/productTranslation")
+    void deleteNoneExistingCoupleLanguageProductTranslation() {
+        Language language = Language.EN;
+
+        String productName = "Petit PC";
+        float productPrice = 1.99f;
+        String productDescription = "Tout petit PC pas très performant mais conviendra à un enfant en bas âge";
+        Product product = new Product(productName, productPrice, productDescription);
+
+        product.deleteTranslation(language);
+
+        assertNull(product.getTranslation(language));
+    }
+
+    @Test
     @DisplayName("Correct toString")
     void testToString() {
         String productName = "Petit PC";

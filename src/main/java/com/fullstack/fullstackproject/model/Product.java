@@ -9,7 +9,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 import java.security.InvalidParameterException;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
@@ -48,6 +50,16 @@ public class Product {
         return getShop().getName();
     }
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @CollectionTable(name = "translated_product",
+                    foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,
+                    name = "FK_translation_to_product"),
+                    joinColumns = @JoinColumn(name = "product_id"))
+    @MapKeyEnumerated(EnumType.ORDINAL)
+    @MapKeyColumn(name = "language")
+    @Column(name = "translation")
+    protected Map<Language, ProductTranslation> translations;
+
     protected Shop getShop() {
         return shop;
     }
@@ -66,6 +78,17 @@ public class Product {
 
     public String getDescription() {
         return description;
+    }
+
+    public ProductTranslation getTranslation(Language language) {
+        if(language == null) {
+            throw new InvalidParameterException();
+        }
+        return translations.get(language);
+    }
+
+    public Map<Language, ProductTranslation> getTranslations(){
+        return translations;
     }
 
     public void setDescription(String description) {
@@ -91,6 +114,23 @@ public class Product {
         categories = newCategories;
     }
 
+    public void setTranslation(Language language, ProductTranslation productTranslation) {
+        if(language == null || productTranslation == null) {
+            throw new InvalidParameterException();
+        }
+        if (translations.containsKey(language)) {
+            translations.get(language).setValues(productTranslation.getTranslatedName(), productTranslation.getTranslatedDescription());
+        } else {
+            translations.put(language, productTranslation);
+        }
+    }
+
+    public void deleteTranslation(Language language) {
+        if(language == null){
+            throw new InvalidParameterException();
+        }
+        translations.remove(language);
+    }
 
     public Set<Category> getCategories() {
         return categories;
@@ -114,6 +154,7 @@ public class Product {
         this.price = price;
         this.description = description;
         this.shop = shop;
+        this.translations = new HashMap<Language, ProductTranslation>();
     }
 
     @Override

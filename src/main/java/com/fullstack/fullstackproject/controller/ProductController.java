@@ -1,18 +1,20 @@
 package com.fullstack.fullstackproject.controller;
 
-import com.fullstack.fullstackproject.model.Product;
-import com.fullstack.fullstackproject.model.ProductRepository;
+import com.fullstack.fullstackproject.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @RestController
 @RequestMapping("products")
 public class ProductController {
 
+    @Autowired
+    public ProductTranslationRepository productTranslationRepository;
     @Autowired
     public ProductRepository productRepository;
 
@@ -49,6 +51,16 @@ public class ProductController {
             if (product.getPrice() != null) productToUpdate.setPrice(product.getPrice());
             if (product.getDescription() != null) productToUpdate.setDescription(product.getDescription());
             if (product.getCategories() != null) productToUpdate.setCategories(product.getCategories());
+            if (product.getTranslations() != null) {
+                for (Map.Entry<Language, ProductTranslation> couple: product.getTranslations().entrySet()) {
+                    if(couple.getValue() != null) {
+                        productToUpdate.setTranslation(couple.getKey(), couple.getValue());
+                        productTranslationRepository.save(productToUpdate.getTranslation(couple.getKey()));
+                    } else {
+                        productToUpdate.deleteTranslation(couple.getKey());
+                    }
+                }
+            }
             productRepository.save(productToUpdate);
             return new ResponseEntity<>(id, HttpStatus.OK);
         } else {

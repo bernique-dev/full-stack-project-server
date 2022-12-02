@@ -15,6 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("shop")
+@CrossOrigin
 public class ShopController {
 
     @Autowired

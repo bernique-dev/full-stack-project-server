@@ -99,7 +99,6 @@ public class DataLoader {
     }
 
     private void loadCategories() {
-        categoryRepository.save(new Category("Jeux vidéos"));
         categoryRepository.save(new Category("Alimentaire"));
         categoryRepository.save(new Category("Informatique"));
         categoryRepository.save(new Category("Textile"));

@@ -38,13 +38,13 @@ public class Product {
     protected Shop shop;
 
     @JsonSerialize
-    @JsonProperty("shop_id")
+    @JsonProperty("shopId")
     protected Long getShopId() {
         return getShop().getId();
     }
 
     @JsonSerialize
-    @JsonProperty("shop_name")
+    @JsonProperty("shopName")
     protected String getShopName() {
         return getShop().getName();
     }

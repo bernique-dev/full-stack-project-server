@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("shop")
+@RequestMapping("shops")
 @CrossOrigin
 public class ShopController {
 

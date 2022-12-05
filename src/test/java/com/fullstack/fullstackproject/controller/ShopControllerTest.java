@@ -2,22 +2,18 @@ package com.fullstack.fullstackproject.controller;
 
 import com.fullstack.fullstackproject.model.Shop;
 import com.fullstack.fullstackproject.model.ShopRepository;
-import org.json.JSONArray;
 import org.json.JSONObject;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.junit.jupiter.api.*;
 import org.springframework.core.Ordered;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.time.DayOfWeek;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -33,7 +29,7 @@ class ShopControllerTest {
     @Test
     @DisplayName("Get Shop List")
     public void getShopList() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/shop")
+        mockMvc.perform(MockMvcRequestBuilders.get("/shops")
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
@@ -44,33 +40,15 @@ class ShopControllerTest {
     public void addCorrectShop() throws Exception {
         String name = "Burger Cringe";
         Boolean isOnLeave = false;
-
-        Map<String, JSONArray> openingTimes = new HashMap<>();
-        openingTimes.put(DayOfWeek.MONDAY.name(), new JSONArray(new int[] {8, 30}));
-        openingTimes.put(DayOfWeek.TUESDAY.name(), new JSONArray(new int[] {8, 30}));
-        openingTimes.put(DayOfWeek.WEDNESDAY.name(),  new JSONArray(new int[] {8, 30}));
-        openingTimes.put(DayOfWeek.THURSDAY.name(),  new JSONArray(new int[] {8, 30}));
-        openingTimes.put(DayOfWeek.FRIDAY.name(),  new JSONArray(new int[] {8, 30}));
-        openingTimes.put(DayOfWeek.SATURDAY.name(), null);
-        openingTimes.put(DayOfWeek.SUNDAY.name(),  new JSONArray(new int[] {8, 30}));
-
-        Map<String, JSONArray> closingTimes = new HashMap<>();
-        closingTimes.put(DayOfWeek.MONDAY.name(),  new JSONArray(new int[] {8, 30}));
-        closingTimes.put(DayOfWeek.TUESDAY.name(),  new JSONArray(new int[] {8, 30}));
-        closingTimes.put(DayOfWeek.WEDNESDAY.name(),  new JSONArray(new int[] {8, 30}));
-        closingTimes.put(DayOfWeek.THURSDAY.name(),  new JSONArray(new int[] {8, 30}));
-        closingTimes.put(DayOfWeek.FRIDAY.name(),  new JSONArray(new int[] {8, 30}));
-        closingTimes.put(DayOfWeek.SATURDAY.name(),  new JSONArray(new int[] {8, 30}));
-        closingTimes.put(DayOfWeek.SUNDAY.name(),  new JSONArray(new int[] {8, 30}));
+        String schedule = ";08:45-18:15;09:00-19:15;08:30-17:15;10:00-18:15;;";
 
 
         JSONObject requestBody = new JSONObject();
         requestBody.put("name", name);
         requestBody.put("isOnLeave", isOnLeave);
-        requestBody.put("openingTimes", new JSONObject(openingTimes));
-        requestBody.put("closingTimes", new JSONObject(closingTimes));
+        requestBody.put("schedule", schedule);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/shop")
+        mockMvc.perform(MockMvcRequestBuilders.post("/shops")
                         .content(requestBody.toString()).contentType(MediaType.APPLICATION_JSON))
                         .andExpect(MockMvcResultMatchers.status().isCreated());
 
@@ -81,32 +59,14 @@ class ShopControllerTest {
     public void addIncorrectShopWithIncorrectName() throws Exception {
         String name = "";
         String isOnLeave = "false";
-
-        Map<String, JSONArray> openingTimes = new HashMap<>();
-        openingTimes.put(DayOfWeek.MONDAY.name(), new JSONArray(new int[] {8, 30}));
-        openingTimes.put(DayOfWeek.TUESDAY.name(), new JSONArray(new int[] {8, 30}));
-        openingTimes.put(DayOfWeek.WEDNESDAY.name(),  new JSONArray(new int[] {8, 30}));
-        openingTimes.put(DayOfWeek.THURSDAY.name(),  new JSONArray(new int[] {8, 30}));
-        openingTimes.put(DayOfWeek.FRIDAY.name(),  new JSONArray(new int[] {8, 30}));
-        openingTimes.put(DayOfWeek.SATURDAY.name(), null);
-        openingTimes.put(DayOfWeek.SUNDAY.name(),  new JSONArray(new int[] {8, 30}));
-
-        Map<String, JSONArray> closingTimes = new HashMap<>();
-        closingTimes.put(DayOfWeek.MONDAY.name(),  new JSONArray(new int[] {8, 30}));
-        closingTimes.put(DayOfWeek.TUESDAY.name(),  new JSONArray(new int[] {8, 30}));
-        closingTimes.put(DayOfWeek.WEDNESDAY.name(),  new JSONArray(new int[] {8, 30}));
-        closingTimes.put(DayOfWeek.THURSDAY.name(),  new JSONArray(new int[] {8, 30}));
-        closingTimes.put(DayOfWeek.FRIDAY.name(),  new JSONArray(new int[] {8, 30}));
-        closingTimes.put(DayOfWeek.SATURDAY.name(),  new JSONArray(new int[] {8, 30}));
-        closingTimes.put(DayOfWeek.SUNDAY.name(),  new JSONArray(new int[] {8, 30}));
+        String schedule = ";08:45-18:15;09:00-19:15;08:30-17:15;10:00-18:15;;";
 
         JSONObject requestBody = new JSONObject();
         requestBody.put("name", name);
         requestBody.put("isOnLeave", isOnLeave);
-        requestBody.put("openingTimes", new JSONObject(openingTimes));
-        requestBody.put("closingTimes", new JSONObject(closingTimes));
+        requestBody.put("schedule", schedule);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/shop")
+        mockMvc.perform(MockMvcRequestBuilders.post("/shops")
                         .content(requestBody.toString()).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
@@ -116,32 +76,14 @@ class ShopControllerTest {
     public void addIncorrectShopWithIncorrectIsOnLeave() throws Exception {
         String name = "Mc gros";
         String isOnLeave = "";
-
-        Map<String, JSONArray> openingTimes = new HashMap<>();
-        openingTimes.put(DayOfWeek.MONDAY.name(), new JSONArray(new int[] {8, 30}));
-        openingTimes.put(DayOfWeek.TUESDAY.name(), new JSONArray(new int[] {8, 30}));
-        openingTimes.put(DayOfWeek.WEDNESDAY.name(),  new JSONArray(new int[] {8, 30}));
-        openingTimes.put(DayOfWeek.THURSDAY.name(),  new JSONArray(new int[] {8, 30}));
-        openingTimes.put(DayOfWeek.FRIDAY.name(),  new JSONArray(new int[] {8, 30}));
-        openingTimes.put(DayOfWeek.SATURDAY.name(), null);
-        openingTimes.put(DayOfWeek.SUNDAY.name(),  new JSONArray(new int[] {8, 30}));
-
-        Map<String, JSONArray> closingTimes = new HashMap<>();
-        closingTimes.put(DayOfWeek.MONDAY.name(),  new JSONArray(new int[] {8, 30}));
-        closingTimes.put(DayOfWeek.TUESDAY.name(),  new JSONArray(new int[] {8, 30}));
-        closingTimes.put(DayOfWeek.WEDNESDAY.name(),  new JSONArray(new int[] {8, 30}));
-        closingTimes.put(DayOfWeek.THURSDAY.name(),  new JSONArray(new int[] {8, 30}));
-        closingTimes.put(DayOfWeek.FRIDAY.name(),  new JSONArray(new int[] {8, 30}));
-        closingTimes.put(DayOfWeek.SATURDAY.name(),  new JSONArray(new int[] {8, 30}));
-        closingTimes.put(DayOfWeek.SUNDAY.name(),  new JSONArray(new int[] {8, 30}));
+        String schedule = ";08:45-18:15;09:00-19:15;08:30-17:15;10:00-18:15;;";
 
         JSONObject requestBody = new JSONObject();
         requestBody.put("name", name);
         requestBody.put("isOnLeave", isOnLeave);
-        requestBody.put("openingTimes", new JSONObject(openingTimes));
-        requestBody.put("closingTimes", new JSONObject(closingTimes));
+        requestBody.put("schedule", schedule);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/shop")
+        mockMvc.perform(MockMvcRequestBuilders.post("/shops")
                         .content(requestBody.toString()).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
@@ -150,7 +92,7 @@ class ShopControllerTest {
     @Order(Ordered.LOWEST_PRECEDENCE-1)
     @DisplayName("Delete a present shop")
     public void deletePresentShop() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/shop/" + getLastShopId()))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/shops/" + getLastShopId()))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
@@ -158,7 +100,7 @@ class ShopControllerTest {
     @Order(Ordered.LOWEST_PRECEDENCE)
     @DisplayName("Delete a missing shop")
     public void deleteMissingShop() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/shop/" + (getLastShopId()+1)))
+        mockMvc.perform(MockMvcRequestBuilders.delete("/shops/" + (getLastShopId()+1)))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 
@@ -167,34 +109,23 @@ class ShopControllerTest {
     void correctlyUpdateShopWithOneParameter() throws Exception {
         String name = "KFC (Ketchup Frites Caramel)";
         String isOnLeave = "false";
-
-        Map<String, JSONArray> openingTimes = new HashMap<>();
-        openingTimes.put(DayOfWeek.MONDAY.name(), new JSONArray(new int[] {10, 30}));
-
-        Map<String, JSONArray> closingTimes = new HashMap<>();
-        openingTimes.put(DayOfWeek.MONDAY.name(), new JSONArray(new int[] {10, 30}));
-
+        String schedule = ";08:45-18:15;09:00-19:15;08:30-17:15;10:00-18:15;;";
+        
         JSONObject requestBody = new JSONObject();
         requestBody.put("name", name);
-        mockMvc.perform(MockMvcRequestBuilders.patch("/shop/" + getLastShopId())
+        mockMvc.perform(MockMvcRequestBuilders.patch("/shops/" + getLastShopId())
                         .content(requestBody.toString()).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
         requestBody = new JSONObject();
         requestBody.put("isOnLeave", isOnLeave);
-        mockMvc.perform(MockMvcRequestBuilders.patch("/shop/" + getLastShopId())
+        mockMvc.perform(MockMvcRequestBuilders.patch("/shops/" + getLastShopId())
                         .content(requestBody.toString()).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
         requestBody = new JSONObject();
-        requestBody.put("openingTimes",  new JSONObject(openingTimes));
-        mockMvc.perform(MockMvcRequestBuilders.patch("/shop/" + getLastShopId())
-                        .content(requestBody.toString()).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-
-        requestBody = new JSONObject();
-        requestBody.put("closingTimes",  new JSONObject(closingTimes));
-        mockMvc.perform(MockMvcRequestBuilders.patch("/shop/" + getLastShopId())
+        requestBody.put("schedule",  schedule);
+        mockMvc.perform(MockMvcRequestBuilders.patch("/shops/" + getLastShopId())
                         .content(requestBody.toString()).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
@@ -204,52 +135,26 @@ class ShopControllerTest {
     void correctlyUpdateShopWithTwoParameter() throws Exception {
         String name = "KFC (Ketchup Frites Caramel)";
         String isOnLeave = "false";
-
-        Map<String, JSONArray> openingTimes = new HashMap<>();
-        openingTimes.put(DayOfWeek.MONDAY.name(), new JSONArray(new int[] {10, 30}));
-
-        Map<String, JSONArray> closingTimes = new HashMap<>();
-        openingTimes.put(DayOfWeek.MONDAY.name(), new JSONArray(new int[] {10, 30}));
+        String schedule = ";08:45-18:15;09:00-19:15;08:30-17:15;10:00-18:15;;";
 
         JSONObject requestBody = new JSONObject();
         requestBody.put("name", name);
         requestBody.put("isOnLeave", isOnLeave);
-        mockMvc.perform(MockMvcRequestBuilders.patch("/shop/" + getLastShopId())
+        mockMvc.perform(MockMvcRequestBuilders.patch("/shops/" + getLastShopId())
                         .content(requestBody.toString()).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
         requestBody = new JSONObject();
         requestBody.put("name", name);
-        requestBody.put("openingTimes",  new JSONObject(openingTimes));
-        mockMvc.perform(MockMvcRequestBuilders.patch("/shop/" + getLastShopId())
-                        .content(requestBody.toString()).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-
-        requestBody = new JSONObject();
-        requestBody.put("name", name);
-        requestBody.put("closingTimes",  new JSONObject(closingTimes));
-        mockMvc.perform(MockMvcRequestBuilders.patch("/shop/" + getLastShopId())
+        requestBody.put("schedule",  schedule);
+        mockMvc.perform(MockMvcRequestBuilders.patch("/shops/" + getLastShopId())
                         .content(requestBody.toString()).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
         requestBody = new JSONObject();
         requestBody.put("isOnLeave", isOnLeave);
-        requestBody.put("openingTimes",  new JSONObject(openingTimes));
-        mockMvc.perform(MockMvcRequestBuilders.patch("/shop/" + getLastShopId())
-                        .content(requestBody.toString()).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-
-        requestBody = new JSONObject();
-        requestBody.put("isOnLeave", isOnLeave);
-        requestBody.put("closingTimes",  new JSONObject(closingTimes));
-        mockMvc.perform(MockMvcRequestBuilders.patch("/shop/" + getLastShopId())
-                        .content(requestBody.toString()).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-
-        requestBody = new JSONObject();
-        requestBody.put("openingTimes",  new JSONObject(openingTimes));
-        requestBody.put("closingTimes",  new JSONObject(closingTimes));
-        mockMvc.perform(MockMvcRequestBuilders.patch("/shop/" + getLastShopId())
+        requestBody.put("schedule",  schedule);
+        mockMvc.perform(MockMvcRequestBuilders.patch("/shops/" + getLastShopId())
                         .content(requestBody.toString()).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
@@ -259,54 +164,26 @@ class ShopControllerTest {
     void correctlyUpdateShopWithThreeParameter() throws Exception {
         String name = "KFC (Ketchup Frites Caramel)";
         String isOnLeave = "false";
-
-        Map<String, JSONArray> openingTimes = new HashMap<>();
-        openingTimes.put(DayOfWeek.MONDAY.name(), new JSONArray(new int[] {10, 30}));
-
-        Map<String, JSONArray> closingTimes = new HashMap<>();
-        openingTimes.put(DayOfWeek.MONDAY.name(), new JSONArray(new int[] {10, 30}));
+        String schedule = ";08:45-18:15;09:00-19:15;08:30-17:15;10:00-18:15;;";
 
         JSONObject requestBody = new JSONObject();
         requestBody.put("name", name);
         requestBody.put("isOnLeave", isOnLeave);
-        requestBody.put("openingTimes",  new JSONObject(openingTimes));
-        mockMvc.perform(MockMvcRequestBuilders.patch("/shop/" + getLastShopId())
-                        .content(requestBody.toString()).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+        requestBody.put("schedule",  schedule);
 
-        requestBody = new JSONObject();
-        requestBody.put("name", name);
-        requestBody.put("isOnLeave", isOnLeave);
-        requestBody.put("closingTimes",  new JSONObject(closingTimes));
-        mockMvc.perform(MockMvcRequestBuilders.patch("/shop/" + getLastShopId())
-                        .content(requestBody.toString()).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-
-        requestBody = new JSONObject();
-        requestBody.put("isOnLeave", isOnLeave);
-        requestBody.put("openingTimes",  new JSONObject(openingTimes));
-        requestBody.put("closingTimes",  new JSONObject(closingTimes));
-        mockMvc.perform(MockMvcRequestBuilders.patch("/shop/" + getLastShopId())
-                        .content(requestBody.toString()).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk());
-
-        requestBody = new JSONObject();
-        requestBody.put("name", name);
-        requestBody.put("openingTimes",  new JSONObject(openingTimes));
-        requestBody.put("closingTimes",  new JSONObject(closingTimes));
-        mockMvc.perform(MockMvcRequestBuilders.patch("/shop/" + getLastShopId())
+        mockMvc.perform(MockMvcRequestBuilders.patch("/shops/" + getLastShopId())
                         .content(requestBody.toString()).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
-    @DisplayName("Update a none existent shop(1 parameter)")
-    void updateNoneExistentShopWithOneParameter() throws Exception {
+    @DisplayName("Update a non-existing shop(1 parameter)")
+    void updateNonExistingShopWithOneParameter() throws Exception {
         String name = "KFC (Ketchup Frites Caramel)";
 
         JSONObject requestBody = new JSONObject();
         requestBody.put("name", name);
-        mockMvc.perform(MockMvcRequestBuilders.patch("/shop/" + getLastShopId() + 1 )
+        mockMvc.perform(MockMvcRequestBuilders.patch("/shops/" + getLastShopId() + 1 )
                         .content(requestBody.toString()).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isNotFound());
     }

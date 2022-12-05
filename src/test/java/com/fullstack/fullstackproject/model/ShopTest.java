@@ -6,12 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import java.security.InvalidParameterException;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,30 +19,12 @@ class ShopTest {
     void createCorrectConstructor() {
         String name= "Burger Cringe";
         Boolean isOnLeave = false;
+        String horaries = ";08:45-18:15;09:00-19:15;08:30-17:15;10:00-18:15;;";
 
-        Map<DayOfWeek, LocalTime> openingTimes = new HashMap<DayOfWeek, LocalTime>();
-        openingTimes.put(DayOfWeek.MONDAY, LocalTime.of(7, 30));
-        openingTimes.put(DayOfWeek.TUESDAY, LocalTime.of(8, 30));
-        openingTimes.put(DayOfWeek.WEDNESDAY, LocalTime.of(9, 30));
-        openingTimes.put(DayOfWeek.THURSDAY, LocalTime.of(10, 30));
-        openingTimes.put(DayOfWeek.FRIDAY, LocalTime.of(11, 30));
-        openingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(12, 30));
-        openingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(13, 30));
-
-        Map<DayOfWeek, LocalTime> closingTimes = new HashMap<DayOfWeek, LocalTime>();
-        closingTimes.put(DayOfWeek.MONDAY, LocalTime.of(17, 30));
-        closingTimes.put(DayOfWeek.TUESDAY, LocalTime.of(18, 30));
-        closingTimes.put(DayOfWeek.WEDNESDAY, LocalTime.of(19, 30));
-        closingTimes.put(DayOfWeek.THURSDAY, LocalTime.of(20, 30));
-        closingTimes.put(DayOfWeek.FRIDAY, LocalTime.of(21, 30));
-        closingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(22, 30));
-        closingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(23, 30));
-
-        Shop shop = new Shop(name, isOnLeave, openingTimes, closingTimes, LocalDate.now());
+        Shop shop = new Shop(name, isOnLeave, horaries, LocalDate.now());
         assertEquals(shop.getName(), name);
         assertEquals(shop.getIsOnLeave(), isOnLeave);
-        assertEquals(shop.getOpeningTimes(), openingTimes);
-        assertEquals(shop.getClosingTimes(), closingTimes);
+        assertEquals(shop.getOpeningTimes(), horaries);
     }
 
     @Test
@@ -55,25 +33,9 @@ class ShopTest {
         String name= "";
         Boolean isOnLeave = false;
 
-        Map<DayOfWeek, LocalTime> openingTimes = new HashMap<DayOfWeek, LocalTime>();
-        openingTimes.put(DayOfWeek.MONDAY, LocalTime.of(7, 30));
-        openingTimes.put(DayOfWeek.TUESDAY, LocalTime.of(8, 30));
-        openingTimes.put(DayOfWeek.WEDNESDAY, LocalTime.of(9, 30));
-        openingTimes.put(DayOfWeek.THURSDAY, LocalTime.of(10, 30));
-        openingTimes.put(DayOfWeek.FRIDAY, LocalTime.of(11, 30));
-        openingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(12, 30));
-        openingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(13, 30));
+        String horaries = ";08:45-18:15;09:00-19:15;08:30-17:15;10:00-18:15;;";
 
-        Map<DayOfWeek, LocalTime> closingTimes = new HashMap<DayOfWeek, LocalTime>();
-        closingTimes.put(DayOfWeek.MONDAY, LocalTime.of(17, 30));
-        closingTimes.put(DayOfWeek.TUESDAY, LocalTime.of(18, 30));
-        closingTimes.put(DayOfWeek.WEDNESDAY, LocalTime.of(19, 30));
-        closingTimes.put(DayOfWeek.THURSDAY, LocalTime.of(20, 30));
-        closingTimes.put(DayOfWeek.FRIDAY, LocalTime.of(21, 30));
-        closingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(22, 30));
-        closingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(23, 30));
-
-        assertThrows(InvalidParameterException.class,() -> new Shop(name, isOnLeave, openingTimes, closingTimes, LocalDate.now()));
+        assertThrows(InvalidParameterException.class,() -> new Shop(name, isOnLeave, horaries, LocalDate.now()));
     }
 
     @Test
@@ -81,77 +43,22 @@ class ShopTest {
     void createIncorrectConstructorWithIncorrectIsOnLeave() {
         String name= "Mc gros";
         Boolean isOnLeave = null;
+        String horaries = ";08:45-18:15;09:00-19:15;08:30-17:15;10:00-18:15;;";
 
-        Map<DayOfWeek, LocalTime> openingTimes = new HashMap<DayOfWeek, LocalTime>();
-        openingTimes.put(DayOfWeek.MONDAY, LocalTime.of(7, 30));
-        openingTimes.put(DayOfWeek.TUESDAY, LocalTime.of(8, 30));
-        openingTimes.put(DayOfWeek.WEDNESDAY, LocalTime.of(9, 30));
-        openingTimes.put(DayOfWeek.THURSDAY, LocalTime.of(10, 30));
-        openingTimes.put(DayOfWeek.FRIDAY, LocalTime.of(11, 30));
-        openingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(12, 30));
-        openingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(13, 30));
-
-        Map<DayOfWeek, LocalTime> closingTimes = new HashMap<DayOfWeek, LocalTime>();
-        closingTimes.put(DayOfWeek.MONDAY, LocalTime.of(17, 30));
-        closingTimes.put(DayOfWeek.TUESDAY, LocalTime.of(18, 30));
-        closingTimes.put(DayOfWeek.WEDNESDAY, LocalTime.of(19, 30));
-        closingTimes.put(DayOfWeek.THURSDAY, LocalTime.of(20, 30));
-        closingTimes.put(DayOfWeek.FRIDAY, LocalTime.of(21, 30));
-        closingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(22, 30));
-        closingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(23, 30));
-
-        assertThrows(InvalidParameterException.class, () -> new Shop(name, isOnLeave, openingTimes, closingTimes, LocalDate.now()));
+        assertThrows(InvalidParameterException.class, () -> new Shop(name, isOnLeave, horaries, LocalDate.now()));
     }
 
     @Test
-    @DisplayName("Constructor with incorrect openingTimes")
-    void createIncorrectConstructorWithIncorrectOpeningTimes() {
+    @DisplayName("Constructor with incorrect horaries")
+    void createIncorrectConstructorWithIncorrectHoraries() {
         String name= "Mc gros";
         Boolean isOnLeave = true;
 
-        Map<DayOfWeek, LocalTime> openingTimes = new HashMap<DayOfWeek, LocalTime>();
-        openingTimes.put(DayOfWeek.MONDAY, LocalTime.of(7, 30));
-        openingTimes.put(DayOfWeek.TUESDAY, LocalTime.of(8, 30));
-        openingTimes.put(DayOfWeek.WEDNESDAY, LocalTime.of(9, 30));
-        openingTimes.put(DayOfWeek.THURSDAY, LocalTime.of(10, 30));
-        openingTimes.put(DayOfWeek.FRIDAY, LocalTime.of(11, 30));
+        String horaries = "";
 
-        Map<DayOfWeek, LocalTime> closingTimes = new HashMap<DayOfWeek, LocalTime>();
-        closingTimes.put(DayOfWeek.MONDAY, LocalTime.of(17, 30));
-        closingTimes.put(DayOfWeek.TUESDAY, LocalTime.of(18, 30));
-        closingTimes.put(DayOfWeek.WEDNESDAY, LocalTime.of(19, 30));
-        closingTimes.put(DayOfWeek.THURSDAY, LocalTime.of(20, 30));
-        closingTimes.put(DayOfWeek.FRIDAY, LocalTime.of(21, 30));
-        closingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(22, 30));
-        closingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(23, 30));
-
-        assertThrows(InvalidParameterException.class, () -> new Shop(name, isOnLeave, openingTimes, closingTimes, LocalDate.now()));
+        assertThrows(InvalidParameterException.class, () -> new Shop(name, isOnLeave, horaries, LocalDate.now()));
     }
 
-    @Test
-    @DisplayName("Constructor with incorrect closingTimes")
-    void createIncorrectConstructorWithIncorrectClosingTimes() {
-        String name= "Mc gros";
-        Boolean isOnLeave = true;
-
-        Map<DayOfWeek, LocalTime> openingTimes = new HashMap<DayOfWeek, LocalTime>();
-        openingTimes.put(DayOfWeek.MONDAY, LocalTime.of(7, 30));
-        openingTimes.put(DayOfWeek.TUESDAY, LocalTime.of(8, 30));
-        openingTimes.put(DayOfWeek.WEDNESDAY, LocalTime.of(9, 30));
-        openingTimes.put(DayOfWeek.THURSDAY, LocalTime.of(10, 30));
-        openingTimes.put(DayOfWeek.FRIDAY, LocalTime.of(11, 30));
-        openingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(12, 30));
-        openingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(13, 30));
-
-        Map<DayOfWeek, LocalTime> closingTimes = new HashMap<DayOfWeek, LocalTime>();
-        closingTimes.put(DayOfWeek.MONDAY, LocalTime.of(17, 30));
-        closingTimes.put(DayOfWeek.TUESDAY, LocalTime.of(18, 30));
-        closingTimes.put(DayOfWeek.WEDNESDAY, LocalTime.of(19, 30));
-        closingTimes.put(DayOfWeek.THURSDAY, LocalTime.of(20, 30));
-        closingTimes.put(DayOfWeek.FRIDAY, LocalTime.of(21, 30));
-
-        assertThrows(InvalidParameterException.class, () -> new Shop(name, isOnLeave, openingTimes, closingTimes, LocalDate.now()));
-    }
 
     @Test
     @DisplayName("Set correct name")
@@ -187,140 +94,7 @@ class ShopTest {
         assertThrows(InvalidParameterException.class, () -> shop.setIsOnLeave(isOnLeave));
     }
 
-    @Test
-    @DisplayName("set correct couple (dayofWeek,LocalTime) in openingTime")
-    void setCorrectCoupleInOpeningTime() {
-        String name= "Burger Cringe";
-        Boolean isOnLeave = false;
 
-        Map<DayOfWeek, LocalTime> openingTimes = new HashMap<DayOfWeek, LocalTime>();
-        openingTimes.put(DayOfWeek.MONDAY, LocalTime.of(7, 30));
-        openingTimes.put(DayOfWeek.TUESDAY, LocalTime.of(8, 30));
-        openingTimes.put(DayOfWeek.WEDNESDAY, LocalTime.of(9, 30));
-        openingTimes.put(DayOfWeek.THURSDAY, LocalTime.of(10, 30));
-        openingTimes.put(DayOfWeek.FRIDAY, LocalTime.of(11, 30));
-        openingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(12, 30));
-        openingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(13, 30));
-
-        Map<DayOfWeek, LocalTime> closingTimes = new HashMap<DayOfWeek, LocalTime>();
-        closingTimes.put(DayOfWeek.MONDAY, LocalTime.of(17, 30));
-        closingTimes.put(DayOfWeek.TUESDAY, LocalTime.of(18, 30));
-        closingTimes.put(DayOfWeek.WEDNESDAY, LocalTime.of(19, 30));
-        closingTimes.put(DayOfWeek.THURSDAY, LocalTime.of(20, 30));
-        closingTimes.put(DayOfWeek.FRIDAY, LocalTime.of(21, 30));
-        closingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(22, 30));
-        closingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(23, 30));
-
-        Shop shop = new Shop(name, isOnLeave, openingTimes, closingTimes, LocalDate.now());
-
-        DayOfWeek day = DayOfWeek.WEDNESDAY;
-        LocalTime time = LocalTime.of(8, 30);
-
-        shop.setOpeningTime(day, time);
-
-        assertTrue(shop.getOpeningTimes().containsKey(day) &&
-                shop.getOpeningTimes().containsValue(time));
-    }
-
-
-    @Test
-    @DisplayName("set incorrect couple (dayofWeek,LocalTime) in openingTime")
-    void setIncorrectCoupleInOpeningTime() {
-        String name= "Burger Cringe";
-        Boolean isOnLeave = false;
-
-        Map<DayOfWeek, LocalTime> openingTimes = new HashMap<DayOfWeek, LocalTime>();
-        openingTimes.put(DayOfWeek.MONDAY, LocalTime.of(7, 30));
-        openingTimes.put(DayOfWeek.TUESDAY, LocalTime.of(8, 30));
-        openingTimes.put(DayOfWeek.WEDNESDAY, LocalTime.of(9, 30));
-        openingTimes.put(DayOfWeek.THURSDAY, LocalTime.of(10, 30));
-        openingTimes.put(DayOfWeek.FRIDAY, LocalTime.of(11, 30));
-        openingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(12, 30));
-        openingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(13, 30));
-
-        Map<DayOfWeek, LocalTime> closingTimes = new HashMap<DayOfWeek, LocalTime>();
-        closingTimes.put(DayOfWeek.MONDAY, LocalTime.of(17, 30));
-        closingTimes.put(DayOfWeek.TUESDAY, LocalTime.of(18, 30));
-        closingTimes.put(DayOfWeek.WEDNESDAY, LocalTime.of(19, 30));
-        closingTimes.put(DayOfWeek.THURSDAY, LocalTime.of(20, 30));
-        closingTimes.put(DayOfWeek.FRIDAY, LocalTime.of(21, 30));
-        closingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(22, 30));
-        closingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(23, 30));
-
-        Shop shop = new Shop(name, isOnLeave, openingTimes, closingTimes, LocalDate.now());
-
-        DayOfWeek day = null;
-        LocalTime time = LocalTime.of(8, 30);
-
-        assertThrows(InvalidParameterException.class, () -> shop.setClosingTime(day, time));
-    }
-
-    @Test
-    @DisplayName("set correct couple (dayofWeek,LocalTime) in closingTimes")
-    void setCorrectCoupleInClosingTime() {
-        String name= "Burger Cringe";
-        Boolean isOnLeave = false;
-
-        Map<DayOfWeek, LocalTime> openingTimes = new HashMap<DayOfWeek, LocalTime>();
-        openingTimes.put(DayOfWeek.MONDAY, LocalTime.of(7, 30));
-        openingTimes.put(DayOfWeek.TUESDAY, LocalTime.of(8, 30));
-        openingTimes.put(DayOfWeek.WEDNESDAY, LocalTime.of(9, 30));
-        openingTimes.put(DayOfWeek.THURSDAY, LocalTime.of(10, 30));
-        openingTimes.put(DayOfWeek.FRIDAY, LocalTime.of(11, 30));
-        openingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(12, 30));
-        openingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(13, 30));
-
-        Map<DayOfWeek, LocalTime> closingTimes = new HashMap<DayOfWeek, LocalTime>();
-        closingTimes.put(DayOfWeek.MONDAY, LocalTime.of(17, 30));
-        closingTimes.put(DayOfWeek.TUESDAY, LocalTime.of(18, 30));
-        closingTimes.put(DayOfWeek.WEDNESDAY, LocalTime.of(19, 30));
-        closingTimes.put(DayOfWeek.THURSDAY, LocalTime.of(20, 30));
-        closingTimes.put(DayOfWeek.FRIDAY, LocalTime.of(21, 30));
-        closingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(22, 30));
-        closingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(23, 30));
-
-        Shop shop = new Shop(name, isOnLeave, openingTimes, closingTimes, LocalDate.now());
-
-        DayOfWeek day = DayOfWeek.WEDNESDAY;
-        LocalTime time = LocalTime.of(8, 30);
-
-        shop.setClosingTime(day, time);
-
-        assertTrue(shop.getClosingTimes().containsKey(day) &&
-                shop.getClosingTimes().containsValue(time));
-    }
-
-    @Test
-    @DisplayName("set incorrect couple (dayofWeek,LocalTime) in closingTimes")
-    void setIncorrectCoupleInClosingTime() {
-        String name= "Burger Cringe";
-        Boolean isOnLeave = false;
-
-        Map<DayOfWeek, LocalTime> openingTimes = new HashMap<DayOfWeek, LocalTime>();
-        openingTimes.put(DayOfWeek.MONDAY, LocalTime.of(7, 30));
-        openingTimes.put(DayOfWeek.TUESDAY, LocalTime.of(8, 30));
-        openingTimes.put(DayOfWeek.WEDNESDAY, LocalTime.of(9, 30));
-        openingTimes.put(DayOfWeek.THURSDAY, LocalTime.of(10, 30));
-        openingTimes.put(DayOfWeek.FRIDAY, LocalTime.of(11, 30));
-        openingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(12, 30));
-        openingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(13, 30));
-
-        Map<DayOfWeek, LocalTime> closingTimes = new HashMap<DayOfWeek, LocalTime>();
-        closingTimes.put(DayOfWeek.MONDAY, LocalTime.of(17, 30));
-        closingTimes.put(DayOfWeek.TUESDAY, LocalTime.of(18, 30));
-        closingTimes.put(DayOfWeek.WEDNESDAY, LocalTime.of(19, 30));
-        closingTimes.put(DayOfWeek.THURSDAY, LocalTime.of(20, 30));
-        closingTimes.put(DayOfWeek.FRIDAY, LocalTime.of(21, 30));
-        closingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(22, 30));
-        closingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(23, 30));
-
-        Shop shop = new Shop(name, isOnLeave, openingTimes, closingTimes, LocalDate.now());
-
-        DayOfWeek day = null;
-        LocalTime time = LocalTime.of(8, 30);
-
-        assertThrows(InvalidParameterException.class, () -> shop.setOpeningTime(day, time));
-    }
 
     @Test
     @DisplayName("add correct product")
@@ -328,25 +102,9 @@ class ShopTest {
         String name= "Burger Cringe";
         Boolean isOnLeave = false;
 
-        Map<DayOfWeek, LocalTime> openingTimes = new HashMap<DayOfWeek, LocalTime>();
-        openingTimes.put(DayOfWeek.MONDAY, LocalTime.of(7, 30));
-        openingTimes.put(DayOfWeek.TUESDAY, LocalTime.of(8, 30));
-        openingTimes.put(DayOfWeek.WEDNESDAY, LocalTime.of(9, 30));
-        openingTimes.put(DayOfWeek.THURSDAY, LocalTime.of(10, 30));
-        openingTimes.put(DayOfWeek.FRIDAY, LocalTime.of(11, 30));
-        openingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(12, 30));
-        openingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(13, 30));
+        String horaries = ";08:45-18:15;09:00-19:15;08:30-17:15;10:00-18:15;;";
 
-        Map<DayOfWeek, LocalTime> closingTimes = new HashMap<DayOfWeek, LocalTime>();
-        closingTimes.put(DayOfWeek.MONDAY, LocalTime.of(17, 30));
-        closingTimes.put(DayOfWeek.TUESDAY, LocalTime.of(18, 30));
-        closingTimes.put(DayOfWeek.WEDNESDAY, LocalTime.of(19, 30));
-        closingTimes.put(DayOfWeek.THURSDAY, LocalTime.of(20, 30));
-        closingTimes.put(DayOfWeek.FRIDAY, LocalTime.of(21, 30));
-        closingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(22, 30));
-        closingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(23, 30));
-
-        Shop shop = new Shop(name, isOnLeave, openingTimes, closingTimes, LocalDate.now());
+        Shop shop = new Shop(name, isOnLeave, horaries, LocalDate.now());
         Product product = new Product();
 
         shop.addProduct(product);
@@ -364,30 +122,14 @@ class ShopTest {
     }
 
     @Test
-    @DisplayName("delete existent product")
+    @DisplayName("delete existing product")
     void deleteExistentProduct() {
         String name= "Burger Cringe";
         Boolean isOnLeave = false;
 
-        Map<DayOfWeek, LocalTime> openingTimes = new HashMap<DayOfWeek, LocalTime>();
-        openingTimes.put(DayOfWeek.MONDAY, LocalTime.of(7, 30));
-        openingTimes.put(DayOfWeek.TUESDAY, LocalTime.of(8, 30));
-        openingTimes.put(DayOfWeek.WEDNESDAY, LocalTime.of(9, 30));
-        openingTimes.put(DayOfWeek.THURSDAY, LocalTime.of(10, 30));
-        openingTimes.put(DayOfWeek.FRIDAY, LocalTime.of(11, 30));
-        openingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(12, 30));
-        openingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(13, 30));
+        String horaries = ";08:45-18:15;09:00-19:15;08:30-17:15;10:00-18:15;;";
 
-        Map<DayOfWeek, LocalTime> closingTimes = new HashMap<DayOfWeek, LocalTime>();
-        closingTimes.put(DayOfWeek.MONDAY, LocalTime.of(17, 30));
-        closingTimes.put(DayOfWeek.TUESDAY, LocalTime.of(18, 30));
-        closingTimes.put(DayOfWeek.WEDNESDAY, LocalTime.of(19, 30));
-        closingTimes.put(DayOfWeek.THURSDAY, LocalTime.of(20, 30));
-        closingTimes.put(DayOfWeek.FRIDAY, LocalTime.of(21, 30));
-        closingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(22, 30));
-        closingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(23, 30));
-
-        Shop shop = new Shop(name, isOnLeave, openingTimes, closingTimes, LocalDate.now());
+        Shop shop = new Shop(name, isOnLeave, horaries, LocalDate.now());
         Product product = new Product();
 
         shop.addProduct(product);
@@ -397,30 +139,14 @@ class ShopTest {
     }
 
     @Test
-    @DisplayName("delete none existent product")
+    @DisplayName("delete non-existing product")
     void deleteNonExistentProduct() {
         String name= "Burger Cringe";
         Boolean isOnLeave = false;
 
-        Map<DayOfWeek, LocalTime> openingTimes = new HashMap<DayOfWeek, LocalTime>();
-        openingTimes.put(DayOfWeek.MONDAY, LocalTime.of(7, 30));
-        openingTimes.put(DayOfWeek.TUESDAY, LocalTime.of(8, 30));
-        openingTimes.put(DayOfWeek.WEDNESDAY, LocalTime.of(9, 30));
-        openingTimes.put(DayOfWeek.THURSDAY, LocalTime.of(10, 30));
-        openingTimes.put(DayOfWeek.FRIDAY, LocalTime.of(11, 30));
-        openingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(12, 30));
-        openingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(13, 30));
+        String horaries = ";08:45-18:15;09:00-19:15;08:30-17:15;10:00-18:15;;";
 
-        Map<DayOfWeek, LocalTime> closingTimes = new HashMap<DayOfWeek, LocalTime>();
-        closingTimes.put(DayOfWeek.MONDAY, LocalTime.of(17, 30));
-        closingTimes.put(DayOfWeek.TUESDAY, LocalTime.of(18, 30));
-        closingTimes.put(DayOfWeek.WEDNESDAY, LocalTime.of(19, 30));
-        closingTimes.put(DayOfWeek.THURSDAY, LocalTime.of(20, 30));
-        closingTimes.put(DayOfWeek.FRIDAY, LocalTime.of(21, 30));
-        closingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(22, 30));
-        closingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(23, 30));
-
-        Shop shop = new Shop(name, isOnLeave, openingTimes, closingTimes, LocalDate.now());
+        Shop shop = new Shop(name, isOnLeave, horaries, LocalDate.now());
 
         List<Product> saveList = shop.getProductList();
         Product product = new Product();

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import java.security.InvalidParameterException;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +42,7 @@ class ShopTest {
         closingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(22, 30));
         closingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(23, 30));
 
-        Shop shop = new Shop(name, isOnLeave, openingTimes, closingTimes);
+        Shop shop = new Shop(name, isOnLeave, openingTimes, closingTimes, LocalDate.now());
         assertEquals(shop.getName(), name);
         assertEquals(shop.getIsOnLeave(), isOnLeave);
         assertEquals(shop.getOpeningTimes(), openingTimes);
@@ -72,7 +73,7 @@ class ShopTest {
         closingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(22, 30));
         closingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(23, 30));
 
-        assertThrows(InvalidParameterException.class,() -> new Shop(name, isOnLeave, openingTimes, closingTimes));
+        assertThrows(InvalidParameterException.class,() -> new Shop(name, isOnLeave, openingTimes, closingTimes, LocalDate.now()));
     }
 
     @Test
@@ -99,7 +100,7 @@ class ShopTest {
         closingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(22, 30));
         closingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(23, 30));
 
-        assertThrows(InvalidParameterException.class, () -> new Shop(name, isOnLeave, openingTimes, closingTimes));
+        assertThrows(InvalidParameterException.class, () -> new Shop(name, isOnLeave, openingTimes, closingTimes, LocalDate.now()));
     }
 
     @Test
@@ -124,7 +125,7 @@ class ShopTest {
         closingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(22, 30));
         closingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(23, 30));
 
-        assertThrows(InvalidParameterException.class, () -> new Shop(name, isOnLeave, openingTimes, closingTimes));
+        assertThrows(InvalidParameterException.class, () -> new Shop(name, isOnLeave, openingTimes, closingTimes, LocalDate.now()));
     }
 
     @Test
@@ -149,7 +150,7 @@ class ShopTest {
         closingTimes.put(DayOfWeek.THURSDAY, LocalTime.of(20, 30));
         closingTimes.put(DayOfWeek.FRIDAY, LocalTime.of(21, 30));
 
-        assertThrows(InvalidParameterException.class, () -> new Shop(name, isOnLeave, openingTimes, closingTimes));
+        assertThrows(InvalidParameterException.class, () -> new Shop(name, isOnLeave, openingTimes, closingTimes, LocalDate.now()));
     }
 
     @Test
@@ -210,7 +211,7 @@ class ShopTest {
         closingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(22, 30));
         closingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(23, 30));
 
-        Shop shop = new Shop(name, isOnLeave, openingTimes, closingTimes);
+        Shop shop = new Shop(name, isOnLeave, openingTimes, closingTimes, LocalDate.now());
 
         DayOfWeek day = DayOfWeek.WEDNESDAY;
         LocalTime time = LocalTime.of(8, 30);
@@ -246,7 +247,7 @@ class ShopTest {
         closingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(22, 30));
         closingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(23, 30));
 
-        Shop shop = new Shop(name, isOnLeave, openingTimes, closingTimes);
+        Shop shop = new Shop(name, isOnLeave, openingTimes, closingTimes, LocalDate.now());
 
         DayOfWeek day = null;
         LocalTime time = LocalTime.of(8, 30);
@@ -278,7 +279,7 @@ class ShopTest {
         closingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(22, 30));
         closingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(23, 30));
 
-        Shop shop = new Shop(name, isOnLeave, openingTimes, closingTimes);
+        Shop shop = new Shop(name, isOnLeave, openingTimes, closingTimes, LocalDate.now());
 
         DayOfWeek day = DayOfWeek.WEDNESDAY;
         LocalTime time = LocalTime.of(8, 30);
@@ -313,7 +314,7 @@ class ShopTest {
         closingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(22, 30));
         closingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(23, 30));
 
-        Shop shop = new Shop(name, isOnLeave, openingTimes, closingTimes);
+        Shop shop = new Shop(name, isOnLeave, openingTimes, closingTimes, LocalDate.now());
 
         DayOfWeek day = null;
         LocalTime time = LocalTime.of(8, 30);
@@ -345,7 +346,7 @@ class ShopTest {
         closingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(22, 30));
         closingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(23, 30));
 
-        Shop shop = new Shop(name, isOnLeave, openingTimes, closingTimes);
+        Shop shop = new Shop(name, isOnLeave, openingTimes, closingTimes, LocalDate.now());
         Product product = new Product();
 
         shop.addProduct(product);
@@ -386,7 +387,7 @@ class ShopTest {
         closingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(22, 30));
         closingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(23, 30));
 
-        Shop shop = new Shop(name, isOnLeave, openingTimes, closingTimes);
+        Shop shop = new Shop(name, isOnLeave, openingTimes, closingTimes, LocalDate.now());
         Product product = new Product();
 
         shop.addProduct(product);
@@ -419,7 +420,7 @@ class ShopTest {
         closingTimes.put(DayOfWeek.SATURDAY, LocalTime.of(22, 30));
         closingTimes.put(DayOfWeek.SUNDAY, LocalTime.of(23, 30));
 
-        Shop shop = new Shop(name, isOnLeave, openingTimes, closingTimes);
+        Shop shop = new Shop(name, isOnLeave, openingTimes, closingTimes, LocalDate.now());
 
         List<Product> saveList = shop.getProductList();
         Product product = new Product();

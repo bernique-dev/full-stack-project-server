@@ -5,12 +5,9 @@ import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import java.security.InvalidParameterException;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Entity
 @Table(name = "shop")
@@ -26,30 +23,9 @@ public class Shop {
     @NotNull
     protected Boolean isOnLeave;
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "opening_times",
-                    foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,
-                    name = "FK_opening_time_to_shop"),
-                    joinColumns = @JoinColumn(name = "shop_id"))
-    @MapKeyEnumerated(EnumType.ORDINAL)
-    @MapKeyColumn(name = "day")
-    @Column(name = "opening_time")
-    @NotNull
-    //@JsonFormat(pattern = "hh:mm:ss")
-    protected Map<DayOfWeek, LocalTime> openingTimes;
 
+    protected String openingTimes;
 
-    @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(name = "closing_times",
-                    foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT,
-                    name = "FK_closing_time_to_shop"),
-                    joinColumns = @JoinColumn(name = "shop_id"))
-    @MapKeyEnumerated(EnumType.ORDINAL)
-    @MapKeyColumn(name = "day")
-    @Column(name = "closing_time")
-    @NotNull
-    //@JsonFormat(pattern = "hh:mm:ss")
-    protected Map<DayOfWeek, LocalTime> closingTimes;
 
     @OneToMany(mappedBy = "shop", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
@@ -60,12 +36,10 @@ public class Shop {
 
     public Shop() {}
 
-    public Shop(String name, Boolean isOnLeave,
-                Map<DayOfWeek, LocalTime> openingTimes , Map<DayOfWeek, LocalTime> closingTimes, LocalDate creationDate) {
+    public Shop(String name, Boolean isOnLeave, String openingTimes, LocalDate creationDate) {
         if (name.equals("")
                 || isOnLeave == null
-                || openingTimes.size() != DayOfWeek.values().length
-                || closingTimes.size() != DayOfWeek.values().length
+                || openingTimes.equals("")
                 || creationDate == null) {
             throw new InvalidParameterException();
         }
@@ -73,7 +47,6 @@ public class Shop {
         this.name = name;
         this.isOnLeave = isOnLeave;
         this.openingTimes = openingTimes;
-        this.closingTimes = closingTimes;
         this.productList = new ArrayList<>();
         this.creationDate = creationDate;
     }
@@ -90,13 +63,7 @@ public class Shop {
         return this.isOnLeave;
     }
 
-    public Map<DayOfWeek, LocalTime> getOpeningTimes() {
-        return this.openingTimes;
-    }
-
-    public Map<DayOfWeek, LocalTime> getClosingTimes() {
-        return this.closingTimes;
-    }
+    public String getOpeningTimes() { return this.openingTimes; }
 
     public List<Product> getProductList() {
         return this.productList;
@@ -116,21 +83,10 @@ public class Shop {
             throw new InvalidParameterException();
         }
         this.isOnLeave = isOnLeave;
-
     }
 
-    public void setOpeningTime(DayOfWeek dayOfWeek, LocalTime openingTime) {
-        if (dayOfWeek == null) {
-            throw new InvalidParameterException();
-        }
-        openingTimes.put(dayOfWeek, openingTime);
-    }
-
-    public void setClosingTime(DayOfWeek dayOfWeek, LocalTime closingTime) {
-        if (dayOfWeek == null) {
-            throw new InvalidParameterException();
-        }
-        closingTimes.put(dayOfWeek, closingTime);
+    public void setOpeningTimes(String horaries) {
+        this.openingTimes = horaries;
     }
 
     public void setCreationDate(LocalDate creationDate) { this.creationDate = creationDate;}

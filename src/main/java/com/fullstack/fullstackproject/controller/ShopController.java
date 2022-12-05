@@ -8,9 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.DayOfWeek;
-import java.time.LocalTime;
-import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -24,18 +21,6 @@ public class ShopController {
     @GetMapping(value = "", produces = "application/json")
     public ResponseEntity<Iterable<Shop>> getShops() {
         return ResponseEntity.ok().body( shopRepository.findAll());
-    }
-
-    @GetMapping(value = "/{id}", produces = "application/json")
-    public ResponseEntity<Optional<Shop>> getShopById(@PathVariable("id") Long id) {
-
-        boolean doesShopExist = shopRepository.findById(id).isPresent();
-
-        if (doesShopExist) {
-            return ResponseEntity.ok().body(shopRepository.findById(id));
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
     }
 
     @GetMapping("/{id}")
@@ -85,18 +70,11 @@ public class ShopController {
            shopUpdate.setIsOnLeave(shop.getIsOnLeave());
        }
        if (shop.getOpeningTimes() != null) {
-           for (Map.Entry<DayOfWeek, LocalTime> dayAndOpeningTime : shop.getOpeningTimes().entrySet()) {
-               shopUpdate.setOpeningTime(dayAndOpeningTime.getKey(), dayAndOpeningTime.getValue());
-           }
-       }
-       if (shop.getClosingTimes() != null) {
-           for (Map.Entry<DayOfWeek, LocalTime> dayAndClosingTime : shop.getClosingTimes().entrySet()) {
-               shopUpdate.setClosingTime(dayAndClosingTime.getKey(), dayAndClosingTime.getValue());
-           }
+           shopUpdate.setOpeningTimes(shop.getOpeningTimes());
        }
 
-        shopRepository.save(shopUpdate);
-        return new ResponseEntity<>(HttpStatus.OK);
+       shopRepository.save(shopUpdate);
+       return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

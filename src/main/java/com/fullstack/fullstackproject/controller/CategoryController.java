@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RequestMapping("categories")
 @RestController
@@ -24,6 +25,15 @@ public class CategoryController {
     @GetMapping(value = "", produces = "application/json")
     public ResponseEntity<Iterable<Category>> getAllCategories() {
         return ResponseEntity.ok().body(categoryRepository.findAll());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Category> getCategory(@PathVariable("id") Long id) {
+        Optional<Category> optionalCategory = categoryRepository.findById(id);
+        if (optionalCategory.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.ok().body(optionalCategory.get());
     }
 
     @PostMapping("")

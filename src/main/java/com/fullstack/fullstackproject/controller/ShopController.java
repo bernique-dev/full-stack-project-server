@@ -22,7 +22,7 @@ public class ShopController {
     public ShopRepository shopRepository;
 
     @GetMapping(value = "", produces = "application/json")
-    public ResponseEntity<Iterable<Shop>> getShop() {
+    public ResponseEntity<Iterable<Shop>> getShops() {
         return ResponseEntity.ok().body( shopRepository.findAll());
     }
 
@@ -36,6 +36,15 @@ public class ShopController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Shop> getShop(@PathVariable("id") Long id) {
+        Optional<Shop> optionalShop = shopRepository.findById(id);
+        if (optionalShop.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.ok().body(optionalShop.get());
     }
 
     @DeleteMapping("/{id}")

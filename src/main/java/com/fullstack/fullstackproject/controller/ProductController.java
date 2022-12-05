@@ -7,7 +7,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("products")
@@ -20,8 +23,33 @@ public class ProductController {
     public ProductRepository productRepository;
 
     @GetMapping(value = "", produces = "application/json")
-    public ResponseEntity<Iterable<Product>> getProducts() {
-        return ResponseEntity.ok().body(productRepository.findAll());
+    public ResponseEntity<Iterable<Product>> getProducts(@RequestParam("category") Optional<Long> categoryId) {
+        List<Product> products = new ArrayList<>();
+        if (categoryId.isPresent()) {
+            for (Product product : productRepository.findAll()) {
+                for (Category category : product.getCategories()) {
+                    if (category.getId().equals(categoryId.get())) {
+                        System.out.println("ID="+category.getId());
+                        products.add(product);
+                        break;
+                    }
+                }
+            }
+        } else {
+            productRepository.findAll().forEach(products::add);
+        }
+        return ResponseEntity.ok().body(products);
+    }
+
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> getProduct(@PathVariable("id") Long id) {
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if (optionalProduct.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.ok().body(optionalProduct.get());
     }
 
     @PostMapping("")

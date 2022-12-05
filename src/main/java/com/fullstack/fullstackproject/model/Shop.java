@@ -6,8 +6,11 @@ import com.sun.istack.NotNull;
 import javax.persistence.*;
 import java.security.InvalidParameterException;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Entity
 @Table(name = "shop")
@@ -52,14 +55,18 @@ public class Shop {
     @JsonManagedReference
     protected List<Product> productList;
 
+    @NotNull
+    protected LocalDate creationDate;
+
     public Shop() {}
 
     public Shop(String name, Boolean isOnLeave,
-                Map<DayOfWeek, LocalTime> openingTimes , Map<DayOfWeek, LocalTime> closingTimes) {
+                Map<DayOfWeek, LocalTime> openingTimes , Map<DayOfWeek, LocalTime> closingTimes, LocalDate creationDate) {
         if (name.equals("")
                 || isOnLeave == null
                 || openingTimes.size() != DayOfWeek.values().length
-                || closingTimes.size() != DayOfWeek.values().length) {
+                || closingTimes.size() != DayOfWeek.values().length
+                || creationDate == null) {
             throw new InvalidParameterException();
         }
 
@@ -68,6 +75,7 @@ public class Shop {
         this.openingTimes = openingTimes;
         this.closingTimes = closingTimes;
         this.productList = new ArrayList<>();
+        this.creationDate = creationDate;
     }
 
     public Long getId() {
@@ -93,6 +101,8 @@ public class Shop {
     public List<Product> getProductList() {
         return this.productList;
     }
+
+    public LocalDate getCreationDate() {return this.creationDate;}
 
     public void setName(String name) {
         if (name.equals("")) {
@@ -122,6 +132,8 @@ public class Shop {
         }
         closingTimes.put(dayOfWeek, closingTime);
     }
+
+    public void setCreationDate(LocalDate creationDate) { this.creationDate = creationDate;}
 
     public void addProduct(Product product) {
         if (product == null) {

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
 
@@ -31,70 +32,70 @@ public class DataLoader {
         shopRepository.save(new Shop("Burger Cringe", false,
                 randomOpeningSchedule,
                 generateRandomSchedule(LocalTime.of(16,30), LocalTime.of(19,30),
-                        getNonNullDaysOfWeek(randomOpeningSchedule))
+                        getNonNullDaysOfWeek(randomOpeningSchedule)), LocalDate.now()
         ));
 
         randomOpeningSchedule = generateRandomSchedule(LocalTime.of(8,30), LocalTime.of(10,30), null);
         shopRepository.save(new Shop("HLM", false,
                         randomOpeningSchedule,
                         generateRandomSchedule(LocalTime.of(16,30), LocalTime.of(19,30),
-                                getNonNullDaysOfWeek(randomOpeningSchedule))
+                                getNonNullDaysOfWeek(randomOpeningSchedule)), LocalDate.now()
         ));
 
         randomOpeningSchedule = generateRandomSchedule(LocalTime.of(8,30), LocalTime.of(10,30), null);
         shopRepository.save(new Shop("Heptathlon", false,
                 randomOpeningSchedule,
                 generateRandomSchedule(LocalTime.of(16,30), LocalTime.of(19,30),
-                        getNonNullDaysOfWeek(randomOpeningSchedule))
+                        getNonNullDaysOfWeek(randomOpeningSchedule)), LocalDate.now()
         ));
 
         randomOpeningSchedule = generateRandomSchedule(LocalTime.of(8,30), LocalTime.of(10,30), null);
         shopRepository.save(new Shop("Pâtissier", false,
                 randomOpeningSchedule,
                 generateRandomSchedule(LocalTime.of(16,30), LocalTime.of(19,30),
-                        getNonNullDaysOfWeek(randomOpeningSchedule))
+                        getNonNullDaysOfWeek(randomOpeningSchedule)), LocalDate.now()
         ));
 
         randomOpeningSchedule = generateRandomSchedule(LocalTime.of(8,30), LocalTime.of(10,30), null);
         shopRepository.save(new Shop("Leader Cost", false,
                 randomOpeningSchedule,
                 generateRandomSchedule(LocalTime.of(16,30), LocalTime.of(19,30),
-                        getNonNullDaysOfWeek(randomOpeningSchedule))
+                        getNonNullDaysOfWeek(randomOpeningSchedule)), LocalDate.now()
         ));
 
         randomOpeningSchedule = generateRandomSchedule(LocalTime.of(8,30), LocalTime.of(10,30), null);
         shopRepository.save(new Shop("DownAchat", false,
                 randomOpeningSchedule,
                 generateRandomSchedule(LocalTime.of(16,30), LocalTime.of(19,30),
-                        getNonNullDaysOfWeek(randomOpeningSchedule))
+                        getNonNullDaysOfWeek(randomOpeningSchedule)), LocalDate.now()
         ));
 
         randomOpeningSchedule = generateRandomSchedule(LocalTime.of(8,30), LocalTime.of(10,30), null);
         shopRepository.save(new Shop("Moussaillon", false,
                 randomOpeningSchedule,
                 generateRandomSchedule(LocalTime.of(16,30), LocalTime.of(19,30),
-                        getNonNullDaysOfWeek(randomOpeningSchedule))
+                        getNonNullDaysOfWeek(randomOpeningSchedule)), LocalDate.now()
         ));
 
         randomOpeningSchedule = generateRandomSchedule(LocalTime.of(8,30), LocalTime.of(10,30), null);
         shopRepository.save(new Shop("Rasoir", false,
                 randomOpeningSchedule,
                 generateRandomSchedule(LocalTime.of(16,30), LocalTime.of(19,30),
-                        getNonNullDaysOfWeek(randomOpeningSchedule))
+                        getNonNullDaysOfWeek(randomOpeningSchedule)), LocalDate.now()
         ));
 
         randomOpeningSchedule = generateRandomSchedule(LocalTime.of(8,30), LocalTime.of(10,30), null);
         shopRepository.save(new Shop("Lemek", false,
                 randomOpeningSchedule,
                 generateRandomSchedule(LocalTime.of(16,30), LocalTime.of(19,30),
-                        getNonNullDaysOfWeek(randomOpeningSchedule))
+                        getNonNullDaysOfWeek(randomOpeningSchedule)), LocalDate.now()
         ));
 
         randomOpeningSchedule = generateRandomSchedule(LocalTime.of(8,30), LocalTime.of(10,30), null);
         shopRepository.save(new Shop("Ducromania", false,
                 randomOpeningSchedule,
                 generateRandomSchedule(LocalTime.of(16,30), LocalTime.of(19,30),
-                        getNonNullDaysOfWeek(randomOpeningSchedule))
+                        getNonNullDaysOfWeek(randomOpeningSchedule)), LocalDate.now()
         ));
     }
 

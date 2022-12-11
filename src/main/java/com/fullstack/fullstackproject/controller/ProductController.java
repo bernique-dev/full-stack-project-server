@@ -20,13 +20,30 @@ public class ProductController {
     @Autowired
     public ProductTranslationRepository productTranslationRepository;
     @Autowired
+    public ShopRepository shopRepository;
+    @Autowired
     public ProductRepository productRepository;
 
     @GetMapping(value = "", produces = "application/json")
-    public ResponseEntity<Iterable<Product>> getProducts(@RequestParam("category") Optional<Long> categoryId) {
+    public ResponseEntity<Iterable<Product>> getProducts(@RequestParam("category") Optional<Long> categoryId,
+                                                         @RequestParam("shop") Optional<Long> shopId) {
         List<Product> products = new ArrayList<>();
+
+        Iterable<Product> productsIterable;
+        if (shopId.isPresent()) {
+            Optional<Shop> shop = shopRepository.findById(shopId.get());
+            if (shop.isPresent()) {
+                productsIterable = shop.get().getProductList();
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+        } else {
+            productsIterable = productRepository.findAll();
+        }
+
         if (categoryId.isPresent()) {
-            for (Product product : productRepository.findAll()) {
+
+            for (Product product : productsIterable) {
                 for (Category category : product.getCategories()) {
                     if (category.getId().equals(categoryId.get())) {
                         System.out.println("ID="+category.getId());
@@ -36,7 +53,7 @@ public class ProductController {
                 }
             }
         } else {
-            productRepository.findAll().forEach(products::add);
+            productsIterable.forEach(products::add);
         }
         return ResponseEntity.ok().body(products);
     }

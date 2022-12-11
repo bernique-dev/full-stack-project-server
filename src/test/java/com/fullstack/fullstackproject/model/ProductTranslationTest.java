@@ -30,15 +30,6 @@ public class ProductTranslationTest {
     }
 
     @Test
-    @DisplayName("Constructor with invalid parameters")
-    void createIncorrectProductTranslationWithIncorrectDescription() {
-        String translatedName = "Master Chicken";
-        String translatedDescription = "";
-
-        assertThrows(InvalidParameterException.class,() -> new ProductTranslation(translatedName, translatedDescription));
-    }
-
-    @Test
     @DisplayName("set correct translatedName")
     void createCorrectTranslatedName() {
         String translatedName = "Master chicken";
@@ -73,18 +64,6 @@ public class ProductTranslationTest {
         ProductTranslation prodTranslate = new ProductTranslation(translatedName,translatedDescription);
         prodTranslate.setTranslatedDescription(newDescription);
         assertEquals(prodTranslate.getTranslatedDescription(),newDescription);
-
-    }
-
-    @Test
-    @DisplayName("set incorrect translatedDescription")
-    void createIncorrectTranslatedDescription() {
-        String translatedName = "Master chicken";
-        String translatedDescription = "A delicious master and his chicken";
-        String newDescription = "";
-
-        ProductTranslation prodTranslate = new ProductTranslation(translatedName,translatedDescription);
-        assertThrows(InvalidParameterException.class,() -> prodTranslate.setTranslatedDescription(newDescription));
 
     }
 }

@@ -374,8 +374,8 @@ public class ProductControllerTest {
 
         String badTranslationObject = "{\"translations\": {\n" +
                 "    \"EN\": {\n" +
-                "      \"product_name\": \"\",\n" +
-                "      \"product_description\": \"\"\n" +
+                "      \"translatedName\": \"\",\n" +
+                "      \"translatedDescription\": \"\"\n" +
                 "    }}";
 
         mockMvc.perform(MockMvcRequestBuilders.patch("/products/" + getLastProductId())

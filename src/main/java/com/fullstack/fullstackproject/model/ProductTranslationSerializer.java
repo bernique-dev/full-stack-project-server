@@ -10,8 +10,8 @@ public class ProductTranslationSerializer extends JsonSerializer<ProductTranslat
     @Override
     public void serialize(ProductTranslation productTranslation, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         jsonGenerator.writeStartObject();
-        jsonGenerator.writeStringField("product_name", productTranslation.translatedName);
-        jsonGenerator.writeStringField("product_description", productTranslation.translatedDescription);
+        jsonGenerator.writeStringField("translatedName", productTranslation.translatedName);
+        jsonGenerator.writeStringField("translatedDescription", productTranslation.translatedDescription);
         jsonGenerator.writeEndObject();
     }
 }

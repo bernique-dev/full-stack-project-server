@@ -1,6 +1,5 @@
 package com.fullstack.fullstackproject.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.sun.istack.NotNull;
@@ -18,12 +17,10 @@ public class ProductTranslation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
-    @JsonProperty(value = "translated_name")
     @Column(name = "translated_name")
     @NotNull
     protected String translatedName;
 
-    @JsonProperty(value = "translated_description")
     @Column(name = "translated_description")
     @NotNull
     protected String translatedDescription;
@@ -52,9 +49,6 @@ public class ProductTranslation {
     }
 
     public void setTranslatedDescription(String translatedDescription) {
-        if (translatedDescription.equals("")) {
-            throw new InvalidParameterException();
-        }
         this.translatedDescription = translatedDescription;
     }
 
@@ -63,5 +57,8 @@ public class ProductTranslation {
         setTranslatedDescription(translatedDescription);
     }
 
-
+    @Override
+    public String toString() {
+        return translatedName + ": " + translatedDescription;
+    }
 }

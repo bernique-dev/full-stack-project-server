@@ -30,6 +30,8 @@ public class Product {
     @NotNull
     @ManyToMany
     protected Set<Category> categories;
+
+    @Column(columnDefinition = "TEXT")
     protected String description;
 
     @ManyToOne

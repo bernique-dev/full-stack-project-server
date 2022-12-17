@@ -47,6 +47,9 @@ public class ShopController {
 
     @PostMapping("")
     public ResponseEntity<Long> createShop(@RequestBody @Valid Shop shop) {
+        if (shop.getId() != null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         shopRepository.save(shop);
         return new ResponseEntity<>(shop.getId(), HttpStatus.CREATED);
     }

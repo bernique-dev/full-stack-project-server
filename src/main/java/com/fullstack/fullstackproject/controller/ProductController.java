@@ -71,6 +71,9 @@ public class ProductController {
 
     @PostMapping("")
     public ResponseEntity<Long> addProduct(@RequestBody @Valid Product product) {
+        if (product.getId() != null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         productRepository.save(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(product.getId());
     }

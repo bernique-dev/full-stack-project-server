@@ -38,6 +38,9 @@ public class CategoryController {
 
     @PostMapping("")
     public ResponseEntity<Long> addCategory(@RequestBody @Valid Category category) {
+        if (category.getId() != null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         categoryRepository.save(category);
         return ResponseEntity.status(HttpStatus.CREATED).body(category.getId());
     }

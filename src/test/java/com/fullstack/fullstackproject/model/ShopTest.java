@@ -127,9 +127,9 @@ class ShopTest {
         String name= "Burger Cringe";
         Boolean isOnLeave = false;
 
-        String horaries = ";08:45-18:15;09:00-19:15;08:30-17:15;10:00-18:15;;";
+        String schedule = ";08:45-18:15;09:00-19:15;08:30-17:15;10:00-18:15;;";
 
-        Shop shop = new Shop(name, isOnLeave, horaries, LocalDate.now());
+        Shop shop = new Shop(name, isOnLeave, schedule, LocalDate.now());
         Product product = new Product();
 
         shop.addProduct(product);

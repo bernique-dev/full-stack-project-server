@@ -77,7 +77,7 @@ public class ShopController {
        }
 
        shopRepository.save(shopUpdate);
-       return new ResponseEntity<>(HttpStatus.OK);
+       return new ResponseEntity<>(shopUpdate.getId(), HttpStatus.OK);
     }
 
 }

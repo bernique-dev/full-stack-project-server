@@ -33,7 +33,7 @@ public class DataLoader {
         shopRepository.save(new Shop("Burger Cringe", false, randomOpeningSchedule, LocalDate.now()));
 
         randomOpeningSchedule = generateRandomSchedule(LocalTime.of(8,30), LocalTime.of(10,30), LocalTime.of(16,30), LocalTime.of(19,30), null);
-        shopRepository.save(new Shop("HLM", false, randomOpeningSchedule, LocalDate.now()));
+        shopRepository.save(new Shop("HLM", true, randomOpeningSchedule, LocalDate.now()));
 
         randomOpeningSchedule = generateRandomSchedule(LocalTime.of(8,30), LocalTime.of(10,30), LocalTime.of(16,30), LocalTime.of(19,30), null);
         shopRepository.save(new Shop("Heptathlon", false, randomOpeningSchedule, LocalDate.now()));

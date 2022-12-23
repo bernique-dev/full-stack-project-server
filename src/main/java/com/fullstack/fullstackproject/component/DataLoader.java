@@ -30,31 +30,31 @@ public class DataLoader {
 
     private void loadShops() {
         String randomOpeningSchedule = generateRandomSchedule(LocalTime.of(8,30), LocalTime.of(10,30), LocalTime.of(16,30), LocalTime.of(19,30), null);
-        shopRepository.save(new Shop("Burger Cringe", false, randomOpeningSchedule, LocalDate.now()));
+        shopRepository.save(new Shop("Burger Cringe", true, randomOpeningSchedule, LocalDate.now().minusYears(3)));
 
         randomOpeningSchedule = generateRandomSchedule(LocalTime.of(8,30), LocalTime.of(10,30), LocalTime.of(16,30), LocalTime.of(19,30), null);
-        shopRepository.save(new Shop("HLM", true, randomOpeningSchedule, LocalDate.now()));
+        shopRepository.save(new Shop("HLM", true, randomOpeningSchedule, LocalDate.now().minusYears(2)));
 
         randomOpeningSchedule = generateRandomSchedule(LocalTime.of(8,30), LocalTime.of(10,30), LocalTime.of(16,30), LocalTime.of(19,30), null);
-        shopRepository.save(new Shop("Heptathlon", false, randomOpeningSchedule, LocalDate.now()));
+        shopRepository.save(new Shop("Heptathlon", false, randomOpeningSchedule, LocalDate.now().minusYears(1)));
 
         randomOpeningSchedule = generateRandomSchedule(LocalTime.of(8,30), LocalTime.of(10,30), LocalTime.of(16,30), LocalTime.of(19,30), null);
-        shopRepository.save(new Shop("Pâtissier", false, randomOpeningSchedule, LocalDate.now()));
+        shopRepository.save(new Shop("Pâtissier", true, randomOpeningSchedule, LocalDate.now().minusMonths(3)));
 
         randomOpeningSchedule = generateRandomSchedule(LocalTime.of(8,30), LocalTime.of(10,30), LocalTime.of(16,30), LocalTime.of(19,30), null);
-        shopRepository.save(new Shop("Leader Cost", false, randomOpeningSchedule, LocalDate.now()));
+        shopRepository.save(new Shop("Leader Cost", false, randomOpeningSchedule, LocalDate.now().minusMonths(2)));
 
         randomOpeningSchedule = generateRandomSchedule(LocalTime.of(8,30), LocalTime.of(10,30), LocalTime.of(16,30), LocalTime.of(19,30), null);
-        shopRepository.save(new Shop("DownAchat", false, randomOpeningSchedule, LocalDate.now()));
+        shopRepository.save(new Shop("DownAchat", false, randomOpeningSchedule, LocalDate.now().minusMonths(1)));
 
         randomOpeningSchedule = generateRandomSchedule(LocalTime.of(8,30), LocalTime.of(10,30), LocalTime.of(16,30), LocalTime.of(19,30), null);
-        shopRepository.save(new Shop("Moussaillon", false, randomOpeningSchedule, LocalDate.now()));
+        shopRepository.save(new Shop("Moussaillon", true, randomOpeningSchedule, LocalDate.now().minusDays(3)));
 
         randomOpeningSchedule = generateRandomSchedule(LocalTime.of(8,30), LocalTime.of(10,30), LocalTime.of(16,30), LocalTime.of(19,30), null);
-        shopRepository.save(new Shop("Rasoir", false, randomOpeningSchedule, LocalDate.now()));
+        shopRepository.save(new Shop("Rasoir", false, randomOpeningSchedule, LocalDate.now().minusDays(2)));
 
         randomOpeningSchedule = generateRandomSchedule(LocalTime.of(8,30), LocalTime.of(10,30), LocalTime.of(16,30), LocalTime.of(19,30), null);
-        shopRepository.save(new Shop("Lemek", false, randomOpeningSchedule, LocalDate.now()));
+        shopRepository.save(new Shop("Lemek", false, randomOpeningSchedule, LocalDate.now().minusDays(1)));
 
         randomOpeningSchedule = generateRandomSchedule(LocalTime.of(8,30), LocalTime.of(10,30), LocalTime.of(16,30), LocalTime.of(19,30), null);
         shopRepository.save(new Shop("Ducromania", false, randomOpeningSchedule, LocalDate.now()));
@@ -97,6 +97,14 @@ public class DataLoader {
             product1.setCategories(new HashSet<>(Arrays.asList(
                     categoryRepository.findCategoryByName("Alimentaire")
             )));
+            product1.setTranslation(Language.EN, new ProductTranslation("Petit Texas Wellno" ,
+                    "Taste the Petit Texas Wellno ! A delicious smoked sauce," +
+                    " grilled meat and crusty slices of... WELL NO !"));
+            product1.setTranslation(Language.DE, new ProductTranslation(
+                    "Klein Texas Bahnicht", "Lassen Sie sich von Klein Texas Bahnicht" +
+                    " verführen! Eine Sauce mit Rauchgeschmack, gegrilltes Fleisch über der Flamme und zwei knusprige" +
+                    " Scheiben von... NICHT IN DER TAT!"
+            ));
             productRepository.save(product1);
 
             //  PRODUCT 2
@@ -105,6 +113,8 @@ public class DataLoader {
             product2.setCategories(new HashSet<>(Arrays.asList(
                     categoryRepository.findCategoryByName("Alimentaire")
             )));
+            product2.setTranslation(Language.EN, new ProductTranslation("King Yoghurt" ,
+                    "Almost like an Actimel but cringe"));
             productRepository.save(product2);
 
             //  PRODUCT 3

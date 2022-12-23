@@ -4,22 +4,22 @@ import java.io.Serializable;
 
 public enum Language implements Serializable {
     AR("AR"),
-    ZH("ZH"),
     DA("DA"),
-    EN("EN"),
-    FR("FR"),
     DE("DE"),
+    EN("EN"),
+    ES("ES"),
+    FR("FR"),
     IT("IT"),
     JA("JA"),
     LB("LB"),
     PL("PL"),
     RU("RU"),
-    ES("ES"),
     TH("TH"),
-    TR("TR");
+    TR("TR"),
+    ZH("ZH");
 
     private final String name;
-    private Language(String name){
+    Language(String name){
         this.name = name;
     }
 

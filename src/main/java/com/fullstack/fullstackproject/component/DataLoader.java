@@ -23,9 +23,13 @@ public class DataLoader {
 
     @PostConstruct
     public void loadData() {
-        loadShops();
-        loadCategories();
-        loadProducts();
+        if (!shopRepository.findAll().iterator().hasNext()
+                && !categoryRepository.findAll().iterator().hasNext()
+                && !productRepository.findAll().iterator().hasNext()) {
+            loadShops();
+            loadCategories();
+            loadProducts();
+        }
     }
 
     private void loadShops() {
